@@ -1,0 +1,3 @@
+com\mycompany\configs\WebAppContextConfig.class
+com\mycompany\controller\IndexController.class
+com\mycompany\configs\DispatcherServletInit.class
