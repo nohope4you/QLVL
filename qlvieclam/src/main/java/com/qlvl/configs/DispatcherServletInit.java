@@ -1,36 +1,35 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.configs;
+package com.qlvl.configs;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
-
 /**
  *
- * @author Admin
+ * @author ACER
  */
 
 public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherServletInitializer{
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null;
+        return new Class[]{
+            HibernateConfig.class,
+        };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-         return new Class[]{
-           WebAppContextConfig.class  
-         };
+        return new Class[] {
+            WebAppContextConfig.class
+        };
     }
 
     @Override
     protected String[] getServletMappings() {
-           return  new String[]{"/"};
+        return new String[] { "/" };
     }
-
-   
+    
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.configs;
+package com.qlvl.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,25 +15,27 @@ import org.springframework.web.servlet.view.JstlView;
 
 /**
  *
- * @author Admin
+ * @author ACER
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {
-  "com.mycompany.controller"
+@ComponentScan( basePackages = {
+    "com.qlvl.controllers"
 })
 public class WebAppContextConfig implements WebMvcConfigurer{
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-       configurer.enable();
+        configurer.enable();
     }
     
     @Bean
-    public InternalResourceViewResolver internalResourceViewResolver(){
+        public InternalResourceViewResolver internalResourceViewResolver() {
         InternalResourceViewResolver r = new InternalResourceViewResolver();
         r.setViewClass(JstlView.class);
-        r.setPrefix("/WEB-INF/pages/");
+        r.setPrefix("WEB-INF/pages/");
         r.setSuffix(".jsp");
+        
         return r;
     }
 }
