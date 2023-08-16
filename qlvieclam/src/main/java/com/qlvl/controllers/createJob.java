@@ -4,6 +4,7 @@
  */
 package com.qlvl.controllers;
 
+import com.qlvl.pojo.Job;
 import com.qlvl.service.CityService;
 import com.qlvl.service.DistrictService;
 import com.qlvl.service.EducationService;
@@ -12,29 +13,25 @@ import com.qlvl.service.MajorService;
 import com.qlvl.service.TypeJobService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
- * @author ACER
+ * @author Admin
  */
 @Controller
-@ControllerAdvice
-@PropertySource("classpath:configs.properties")
-public class IndexController {
-
+public class createJob {
+    
     @Autowired
-    private JobService jobService;
-    @Autowired
+    private JobService jobSer;
+     @Autowired
     private DistrictService DistrictService;
 
     @Autowired
@@ -50,17 +47,27 @@ public class IndexController {
     @Autowired
     private Environment env;
     
+    
+     @GetMapping("/createJob")
+     @Transactional
+    public String createJob(Model model, @RequestParam Map<String, String> params) {
+         model.addAttribute("CITY", this.CityService.getCity(null));
 
-    @RequestMapping("/")
-    @Transactional
-    public String Index(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("DISTRICT", this.DistrictService.getDistrict(null));
 
-        model.addAttribute("JOB", this.jobService.getJob(params));
-        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
-        long count = this.jobService.countJob();
-        model.addAttribute("COUNT", Math.ceil(count * 1.0 / pageSize));
-        return "index";
+        model.addAttribute("MAJOR", this.MajorService.getMajor(null));
+
+        model.addAttribute("EDUCATION", this.EduService.getEdu(null));
+        model.addAttribute("TYPEJOB", this.TypeService.getTypeJob(null));
+        model.addAttribute("job",new Job());
+        return "createJob";
     }
-
-   
+    
+    @PostMapping("/createJob")
+    public String add(@ModelAttribute(value = "job")Job j){
+        if(jobSer.addJob(j)==true)
+            return"redirect:/";
+        else
+            return "createJob";
+    }
 }

@@ -5,6 +5,7 @@
 package com.qlvl.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,13 +20,17 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ACER
+ * @author Admin
  */
 @Entity
 @Table(name = "job")
@@ -33,11 +38,27 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Job.findAll", query = "SELECT j FROM Job j"),
     @NamedQuery(name = "Job.findById", query = "SELECT j FROM Job j WHERE j.id = :id"),
+    @NamedQuery(name = "Job.findByAvatarJob", query = "SELECT j FROM Job j WHERE j.avatarJob = :avatarJob"),
     @NamedQuery(name = "Job.findByNameJob", query = "SELECT j FROM Job j WHERE j.nameJob = :nameJob"),
     @NamedQuery(name = "Job.findBySoLuongTuyenDung", query = "SELECT j FROM Job j WHERE j.soLuongTuyenDung = :soLuongTuyenDung"),
     @NamedQuery(name = "Job.findByKinhNghiem", query = "SELECT j FROM Job j WHERE j.kinhNghiem = :kinhNghiem"),
-    @NamedQuery(name = "Job.findByAge", query = "SELECT j FROM Job j WHERE j.age = :age")})
+    @NamedQuery(name = "Job.findByAge", query = "SELECT j FROM Job j WHERE j.age = :age"),
+    @NamedQuery(name = "Job.findByCreatedDate", query = "SELECT j FROM Job j WHERE j.createdDate = :createdDate")})
 public class Job implements Serializable {
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,6 +66,9 @@ public class Job implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 200)
+    @Column(name = "avatarJob")
+    private String avatarJob;
     @Size(max = 50)
     @Column(name = "nameJob")
     private String nameJob;
@@ -58,6 +82,9 @@ public class Job implements Serializable {
     private Integer kinhNghiem;
     @Column(name = "Age")
     private Integer age;
+    @Column(name = "createdDate")
+    @Temporal(TemporalType.DATE)
+    private Date createdDate;
     @OneToMany(mappedBy = "jobID")
     private Set<Application> applicationSet;
     @JoinColumn(name = "cityID", referencedColumnName = "id")
@@ -79,6 +106,8 @@ public class Job implements Serializable {
     @ManyToOne
     private Typejob typeJobID;
 
+    @Transient
+    private MultipartFile file;
     public Job() {
     }
 
@@ -92,6 +121,14 @@ public class Job implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAvatarJob() {
+        return avatarJob;
+    }
+
+    public void setAvatarJob(String avatarJob) {
+        this.avatarJob = avatarJob;
     }
 
     public String getNameJob() {
@@ -132,6 +169,14 @@ public class Job implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     @XmlTransient
