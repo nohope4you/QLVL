@@ -7,6 +7,7 @@ package com.qlvl.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,8 +20,11 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan( basePackages = {
     "com.qlvl.controllers"
+    ,"com.qlvl.repository"
+    ,"com.qlvl.service"
 })
 public class WebAppContextConfig implements WebMvcConfigurer{
 

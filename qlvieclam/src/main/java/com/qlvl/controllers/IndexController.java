@@ -4,20 +4,17 @@
  */
 package com.qlvl.controllers;
 
-import java.util.Map;
-import javax.persistence.Query;
-import org.hibernate.Session;
+import com.qlvl.service.CityService;
+import com.qlvl.service.DistrictService;
+import com.qlvl.service.EducationService;
+import com.qlvl.service.JobService;
+import com.qlvl.service.MajorService;
+import com.qlvl.service.TypeJobService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -25,15 +22,36 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class IndexController {
+
     @Autowired
-    private LocalSessionFactoryBean factory;
+    private JobService jobService;
+        @Autowired
+    private DistrictService DistrictService;
+    
+    @Autowired
+    private MajorService MajorService;
+    @Autowired
+    private CityService CityService;
+    @Autowired
+    private TypeJobService TypeService;
+    
+    @Autowired
+    private EducationService EduService;
+    
     
     @RequestMapping("/")
     @Transactional
     public String Index(Model model){
-        Session s = factory.getObject().getCurrentSession();
-        Query q = s.createQuery("FROM User");
-        model.addAttribute("users", q.getResultList());
+
+        model.addAttribute("JOB", this.jobService.getJob(null));
+        model.addAttribute("CITY",this.CityService.getCity(null));
+
+        model.addAttribute("DISTRICT",this.DistrictService.getDistrict(null));
+
+        model.addAttribute("MAJOR",this.MajorService.getMajor(null));
+        
+        model.addAttribute("EDUCATION",this.EduService.getEdu(null));
+        model.addAttribute("TYPEJOB",this.TypeService.getTypeJob(null));
         return "index";
     }
 }
