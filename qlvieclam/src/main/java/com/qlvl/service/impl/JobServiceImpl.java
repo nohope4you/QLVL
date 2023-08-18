@@ -41,7 +41,7 @@ public class JobServiceImpl implements JobService{
 
     @Override
     public boolean addJob(Job j) {
-      if(j.getFile()!=null){
+      if(!j.getFile().isEmpty()){
           try {
              Map res= this.cloudinary.uploader().upload(j.getFile().getBytes(), ObjectUtils.asMap("resource_type","auto"));
               j.setAvatarJob(res.get("secure_url").toString());
@@ -50,6 +50,16 @@ public class JobServiceImpl implements JobService{
           }
       }
      return this.JobRepo.addJob(j);
+    }
+
+    @Override
+    public Job getJobById(int id) {
+     return this.JobRepo.getJobById(id);
+    }
+
+    @Override
+    public boolean deleteJob(int id) {
+     return this.JobRepo.deleteJob(id);
     }
     
 }

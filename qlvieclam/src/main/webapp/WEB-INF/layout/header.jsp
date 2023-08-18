@@ -23,9 +23,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value="/SignUp" />">Đăng ký</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="login" />">Đăng nhập</a>
-                </li>
+                <c:choose>
+                    <c:when test="${pageContext.request.userPrincipal.name !=null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/" />">${pageContext.request.userPrincipal.name}</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/login" />">Đăng nhập</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+
             </ul>
         </div>
     </div>

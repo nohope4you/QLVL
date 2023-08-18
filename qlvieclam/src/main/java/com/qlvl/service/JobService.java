@@ -16,4 +16,6 @@ public interface JobService {
     List<Job> getJob(Map<String,String> params);
     Long countJob();
     boolean addJob(Job j);
+    Job getJobById(int id);
+    boolean deleteJob(int id);
 }

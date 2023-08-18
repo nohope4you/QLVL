@@ -40,7 +40,7 @@ public class JobRepositoryImpl implements JobRepository {
     private LocalSessionFactoryBean factory;
     @Autowired
     private Environment env;
-    
+
     @Autowired
     private Cloudinary cloudinary;
 
@@ -88,11 +88,10 @@ public class JobRepositoryImpl implements JobRepository {
             if (j.getEmployerID() == null) {
                 int em = 1;
                 Employer e = new Employer(em);
-                
+
                 j.setEmployerID(e);
                 s.save(j);
-            }
-            else{
+            } else {
                 s.update(j);
             }
             return true;
@@ -100,5 +99,26 @@ public class JobRepositoryImpl implements JobRepository {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Job getJobById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        return session.get(Job.class, id);
+    }
+
+    @Override
+    public boolean deleteJob(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Job j = this.getJobById(id);
+        try{
+            session.delete(j);
+            return true;
+        }
+        catch(HibernateException ex){
+            ex.printStackTrace();
+            return false;
+        }
+
     }
 }
