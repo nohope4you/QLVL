@@ -13,5 +13,5 @@ import java.util.Map;
  * @author ACER
  */
 public interface TypeJobService {
-    List<Typejob> getTypeJob(Map<String,String> params);
+    List<Typejob> getTypeJob();
 }

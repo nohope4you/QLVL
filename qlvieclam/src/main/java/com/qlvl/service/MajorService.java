@@ -13,5 +13,5 @@ import java.util.Map;
  * @author ACER
  */
 public interface MajorService {
-    List<Major> getMajor(Map<String,String> params);
+    List<Major> getMajor();
 }

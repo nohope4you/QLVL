@@ -10,8 +10,8 @@
 <c:url value="/login" var="action" />
 <form method="post" action="${action}">
     <div class="form-floating mb-3 mt-3">
-        <input type="text" class="form-control" id="name" placeholder="Tên đăng nhập" name="username">
-        <label for="name">Tên đăng nhập</label>
+        <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" name="username">
+        <label for="username">Tên đăng nhập</label>
     </div>
 
     <div class="form-floating mt-3 mb-3">

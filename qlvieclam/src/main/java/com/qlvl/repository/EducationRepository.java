@@ -13,5 +13,5 @@ import java.util.Map;
  * @author ACER
  */
 public interface EducationRepository {
-    List<Education> getEdu(Map<String,String> params);
+    List<Education> getEdu();
 }

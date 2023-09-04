@@ -17,5 +17,5 @@ public interface JobRepository {
     Long countJob();
     boolean addJob(Job j);
     Job getJobById(int id);
-    boolean deleteJob(int id);
+    boolean deleteJob(int userId);
 }

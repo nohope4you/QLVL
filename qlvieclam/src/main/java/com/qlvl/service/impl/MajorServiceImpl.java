@@ -22,8 +22,8 @@ public class MajorServiceImpl implements MajorService{
     public MajorRepository MajorRepo;
     
     @Override
-    public List<Major> getMajor(Map<String, String> params) {
-      return this.MajorRepo.getMajor(params);
+    public List<Major> getMajor() {
+      return this.MajorRepo.getMajor();
     }
     
 }

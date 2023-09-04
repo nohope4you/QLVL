@@ -24,7 +24,7 @@ public class EducationRepositoryImpl implements EducationRepository{
     private LocalSessionFactoryBean factory;
     
     @Override
-    public List<Education> getEdu(Map<String, String> params) {
+    public List<Education> getEdu() {
      Session session = this.factory.getObject().getCurrentSession();
         Query query = session.createQuery("FROM Education");
         return query.getResultList();

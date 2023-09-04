@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 /**
  *
@@ -24,17 +28,38 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
+@EnableTransactionManagement
 @ComponentScan(basePackages = {
     "com.qlvl.controllers",
-     "com.qlvl.repository",
-     "com.qlvl.service"
+    "com.qlvl.repository",
+    "com.qlvl.service"
 })
+@PropertySource("classpath:configs.properties")
+@Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     private Environment env;
+    
+    @Bean
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name","dajbt7dew",
+                        "api_key", "994941553523981",
+                        "api_secret", "tupyLCTsEYrDeDmpXp0WFP8ST34",
+                        "secure", true));
+        return cloudinary;
+    }
+        @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver
+                = new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("UTF-8");
+        return resolver;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -47,24 +72,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-        /**
+
+    /**
      *
      * @param http
      * @throws Exception
      */
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin().loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password");
-        
+
         http.formLogin().defaultSuccessUrl("/")
                 .failureUrl("/login?error");
-        
+
         http.logout().logoutSuccessUrl("/login");
-        
+
         http.exceptionHandling()
                 .accessDeniedPage("/login?accessDenied");
-        
+
 //        http.authorizeRequests().antMatchers("/").permitAll()
 //                .antMatchers("/**/add")
 //                .access("hasRole('ROLE_ADMIN')");
@@ -72,16 +99,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
         http.csrf().disable();
     }
-     @Bean
-    public Cloudinary cloudinary() {
-        Cloudinary cloudinary
-                = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", this.env.getProperty("cloudinary.cloud_name"),
-                        "api_key", this.env.getProperty("cloudinary.api_id"),
-                        "api_secret", this.env.getProperty("cloudinary.api_secret"),
-                        "secure", true));
-        return cloudinary;
-    }
-
 
 }

@@ -4,6 +4,7 @@
  */
 package com.qlvl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -23,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -47,37 +49,24 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Job.findByCreatedDate", query = "SELECT j FROM Job j WHERE j.createdDate = :createdDate")})
 public class Job implements Serializable {
 
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 200)
+    @Size( max = 200, message = "{job.nameJob.notNull}")
     @Column(name = "avatarJob")
     private String avatarJob;
     @NotNull(message = "{job.nameJob.notNull}")
-    @Size(min=1,max = 50,message = "{job.nameJob.lenErr}")
+    @Size(min = 1, max = 50, message = "{job.nameJob.lenErr}")
     @Column(name = "nameJob")
     private String nameJob;
     @Lob
-    @Size(max = 16777215)
+    @Size(min = 1, max = 16777215, message = "{job.nameJob.notNull}")
     @Column(name = "salary")
     private String salary;
+
     @Column(name = "SoLuongTuyenDung")
     private Integer soLuongTuyenDung;
     @Column(name = "KinhNghiem")
@@ -88,6 +77,7 @@ public class Job implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @OneToMany(mappedBy = "jobID")
+    @JsonIgnore
     private Set<Application> applicationSet;
     @JoinColumn(name = "cityID", referencedColumnName = "id")
     @ManyToOne
@@ -110,6 +100,7 @@ public class Job implements Serializable {
 
     @Transient
     private MultipartFile file;
+
     public Job() {
     }
 
@@ -262,5 +253,19 @@ public class Job implements Serializable {
     public String toString() {
         return "com.qlvl.pojo.Job[ id=" + id + " ]";
     }
-    
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
 }

@@ -25,7 +25,7 @@ public class TypeJobRepositoryImpl implements TypeJobRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Typejob> getTypeJob(Map<String, String> params) {
+    public List<Typejob> getTypeJob() {
         Session session = this.factory.getObject().getCurrentSession();
         Query query = session.createQuery("FROM Typejob");
         return query.getResultList();

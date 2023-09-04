@@ -4,6 +4,7 @@
  */
 package com.qlvl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -43,6 +44,7 @@ public class Major implements Serializable {
     @Column(name = "nameMajor")
     private String nameMajor;
     @OneToMany(mappedBy = "majorID")
+    @JsonIgnore
     private Set<Job> jobSet;
 
     public Major() {

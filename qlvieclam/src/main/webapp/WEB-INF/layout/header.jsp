@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="<c:url value="/"/>">Work</a>
@@ -17,22 +18,61 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value="/"/>">Trang chủ</a>
                 </li>
+                <se:authorize access="hasRole('ROLE_ADMIN')or hasRole('ROLE_USER') or hasRole('ROLE_EMP')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/InfoUser" />">Hồ sơ</a>
+                    </li>  
+                </se:authorize>
+
+
+
+                <se:authorize access="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/Admin" />">Quản trị</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/ThongKe" />">Thống kê</a>
+                    </li>
+
+                    </li>
+                </se:authorize>
+                <se:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_EMP')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/Employer" />">Đăng ký nhà tuyển dụng</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/SearchUser" />">Tìm kiếm ứng viên</a>
+                    </li> 
+                </se:authorize>
+
+
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">Hồ sơ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/SignUp" />">Đăng ký</a>
+                    <a class="nav-link" href="<c:url value="/Review" />">Đánh giá</a>
                 </li>
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name !=null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/" />">${pageContext.request.userPrincipal.name}</a>
+                        <div class="navbar-nav me-auto" >
+                            <li class="nav-item me-2">
+                                <a class="nav-link" href="<c:url value="/" />">${pageContext.request.userPrincipal.name}</a>
+                            </li> 
+                        </div>
+
+                        <li class="nav-item me-auto">
+                            <a class="nav-link" href="<c:url value="/logout" />">Đăng xuất</a>
                         </li>
                     </c:when>
                     <c:otherwise>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/login" />">Đăng nhập</a>
+                        <div class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="<c:url value="/login" />">Đăng nhập</a>
+                            </li>  
+
+                        </div>
+                        <li class="nav-item" >
+                            <a class="nav-link" href="<c:url value="/SignUp" />">Đăng ký</a>
                         </li>
+
+
+
                     </c:otherwise>
                 </c:choose>
 

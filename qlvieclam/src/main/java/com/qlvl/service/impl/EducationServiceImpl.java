@@ -22,8 +22,8 @@ public class EducationServiceImpl implements EducationService {
     public EducationRepository EduRepo;
 
     @Override
-    public List<Education> getEdu(Map<String, String> params) {
-        return this.EduRepo.getEdu(params);
+    public List<Education> getEdu() {
+        return this.EduRepo.getEdu();
     }
 
 }

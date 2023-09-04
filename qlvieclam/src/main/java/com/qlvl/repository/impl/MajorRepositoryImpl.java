@@ -24,7 +24,7 @@ public class MajorRepositoryImpl implements MajorRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Major> getMajor(Map<String, String> params) {
+    public List<Major> getMajor() {
          Session session = this.factory.getObject().getCurrentSession();
         Query query = session.createQuery("FROM Major");
         return query.getResultList();

@@ -5,6 +5,8 @@
 package com.qlvl.repository;
 
 import com.qlvl.pojo.User;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -12,4 +14,10 @@ import com.qlvl.pojo.User;
  */
 public interface UserRepository {
     User getUserByUserName(String username);
-}
+     boolean addUser(User u);
+    User getUserById(int id);
+    User findUserByUserName(String username);
+    List<User> getUsername(Map<String,String> params);
+    List<User> getUsernameCriteria(Map<String,String> params);
+    boolean authUser(String username, String password);
+   }

@@ -4,6 +4,7 @@
  */
 package com.qlvl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -43,6 +44,7 @@ public class Role implements Serializable {
     @Column(name = "nameRole")
     private String nameRole;
     @OneToMany(mappedBy = "roleID")
+    @JsonIgnore
     private Set<User> userSet;
 
     public Role() {

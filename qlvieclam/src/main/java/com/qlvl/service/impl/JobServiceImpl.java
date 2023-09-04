@@ -41,9 +41,11 @@ public class JobServiceImpl implements JobService{
 
     @Override
     public boolean addJob(Job j) {
+        
       if(!j.getFile().isEmpty()){
           try {
-             Map res= this.cloudinary.uploader().upload(j.getFile().getBytes(), ObjectUtils.asMap("resource_type","auto"));
+             Map res= this.cloudinary.uploader().upload(j.getFile().getBytes(), 
+                     ObjectUtils.asMap("resource_type","auto"));
               j.setAvatarJob(res.get("secure_url").toString());
           } catch (IOException ex) {
               Logger.getLogger(JobServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,39 +8,44 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<h2 class="text-center text-info    "">CHI TIẾT VIỆC LÀM</h2>
+<h2 class="text-center text-info ">CHI TIẾT VIỆC LÀM</h2>
 
-<c:url value="/createJob" var="action" />
+<div class="container col-md-8">
+    <c:url value="/createJob" var="action" />
 <form:form action="${action}"  method="post" modelAttribute="job" enctype="multipart/form-data">
-    <form:errors path="*" element="div"  cssClass="alert alert-danger" />
+   
     <form:hidden path="id" />
     <form:hidden path="avatarJob"/>
+
     <div class="mb-3 mt-3">
         <label for="email" class="form-label">Tên công việc</label>
-        <form:input type="text" path="nameJob" class="form-control" 
+         <form:errors path="nameJob" element="div" cssClass="text-danger" />
+        <form:input type="text" path="nameJob" class="form-control"
                     id="nameJob" placeholder="Tên công việc"/>
+        
     </div>  
-    <form:errors path="nameJob" element="div"  cssClass="text-danger" />
+    
     <div class="mb-3">
         <label for="pwd" class="form-label">Mức lương</label>
-        <form:input type="text" path="salary" class="form-control" 
+          <form:errors path="salary" element="div" cssClass="text-danger" />
+        <form:input type="number" path="salary" class="form-control" 
                     id="salary" placeholder="Nhập mức lương"/>
 
     </div>
     <div class="mb-3">
         <label for="pwd" class="form-label">Số lượng tuyển dụng</label>
-        <form:input type="text" path="SoLuongTuyenDung" class="form-control" 
+        <form:input type="number" path="SoLuongTuyenDung" class="form-control" 
                     id="SoLuongTuyenDung" placeholder="Nhập số lượng tuyển dụng"/>
 
     </div>
     <div class="mb-3">
         <label for="pwd" class="form-label">Tuổi</label>
-        <form:input type="text" path="Age" class="form-control" 
+        <form:input type="number" path="Age" class="form-control" 
                     id="Age" placeholder="Nhập độ tuổi cần tuyển"/>
     </div>
     <div class="mb-3">
         <label for="pwd" class="form-label">Kinh nghiệm</label>
-        <form:input type="text" path="KinhNghiem" class="form-control" 
+        <form:input type="number" path="KinhNghiem" class="form-control" 
                     id="KinhNghiem" placeholder="Nhập độ số năm kinh nghiệm"/>
     </div>
     <div class="mb-3">
@@ -79,7 +84,7 @@
     </div>
     <div class="mb-3">
         <label for="pwd" class="form-label">Nghề nghiệp tuyển dụng</label>
-        <form:select class="form-select" id="district" name="district" path="majorID">
+        <form:select class="form-select" id="majorID" name="majorID" path="majorID">
             <c:forEach items="${MAJOR}" var="m">
                 <c:choose>
                     <c:when test="${m.id==job.majorID.id}">
@@ -133,7 +138,11 @@
         <form:input type="file" path="file" class="form-control" 
                     id="file" />
     </div>
-
+    <c:if test="${not empty message}">
+        <div class="alert alert-danger">
+            ${message}
+        </div>
+    </c:if>
 
 
 
@@ -150,3 +159,5 @@
 
 </form:form>
 
+
+</div>

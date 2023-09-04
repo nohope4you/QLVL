@@ -10,6 +10,7 @@ import com.qlvl.formatters.CityFormatter;
 import com.qlvl.formatters.DistrictFormatter;
 import com.qlvl.formatters.EducationFormatter;
 import com.qlvl.formatters.MajorFormatter;
+import com.qlvl.formatters.RoleFormatter;
 import com.qlvl.formatters.TypeJobFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -38,21 +40,23 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan( basePackages = {
-    "com.qlvl.controllers"
-    ,"com.qlvl.repository"
-    ,"com.qlvl.service"
+@ComponentScan(basePackages = {
+    "com.qlvl.controllers",
+     "com.qlvl.repository",
+     "com.qlvl.service"
 })
 @PropertySource("classpath:configs.properties")
-public class WebAppContextConfig implements WebMvcConfigurer{
+@Order(1)
+public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Autowired
     private Environment env;
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-    
+
 //    @Bean
 //        public InternalResourceViewResolver internalResourceViewResolver() {
 //        InternalResourceViewResolver r = new InternalResourceViewResolver();
@@ -62,16 +66,17 @@ public class WebAppContextConfig implements WebMvcConfigurer{
 //        
 //        return r;
 //    }
-
     @Override
     public void addFormatters(FormatterRegistry registry) {
-      registry.addFormatter(new CityFormatter());
-      registry.addFormatter(new DistrictFormatter());
-      registry.addFormatter(new EducationFormatter());
-      registry.addFormatter(new MajorFormatter());
-      registry.addFormatter(new TypeJobFormatter());
+        registry.addFormatter(new CityFormatter());
+        registry.addFormatter(new DistrictFormatter());
+        registry.addFormatter(new EducationFormatter());
+        registry.addFormatter(new MajorFormatter());
+        registry.addFormatter(new TypeJobFormatter());
+        registry.addFormatter(new RoleFormatter());
     }
-     @Bean
+
+    @Bean
     public Cloudinary cloudinary() {
         Cloudinary cloudinary
                 = new Cloudinary(ObjectUtils.asMap(
@@ -89,14 +94,15 @@ public class WebAppContextConfig implements WebMvcConfigurer{
         resolver.setDefaultEncoding("UTF-8");
         return resolver;
     }
-    
+
     @Bean
-    public MessageSource messageSource(){
-        ResourceBundleMessageSource m = new  ResourceBundleMessageSource();
-        m.setBasenames("messages");  
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource m = new ResourceBundleMessageSource();
+        m.setBasenames("messages");
         return m;
     }
-     @Bean(name = "validator")
+
+    @Bean(name = "validator")
     public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean bean
                 = new LocalValidatorFactoryBean();
@@ -111,8 +117,7 @@ public class WebAppContextConfig implements WebMvcConfigurer{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/resources/js/");
+        registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/resources/js/");
     }
-    
-    
+
 }

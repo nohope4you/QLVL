@@ -4,6 +4,7 @@
  */
 package com.qlvl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -18,9 +19,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -37,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Employer.findByAddressComapny", query = "SELECT e FROM Employer e WHERE e.addressComapny = :addressComapny"),
     @NamedQuery(name = "Employer.findBySoDienThoai", query = "SELECT e FROM Employer e WHERE e.soDienThoai = :soDienThoai"),
     @NamedQuery(name = "Employer.findByAvatar", query = "SELECT e FROM Employer e WHERE e.avatar = :avatar"),
+    @NamedQuery(name = "Employer.findByNganhNghe", query = "SELECT e FROM Employer e WHERE e.nganhNghe = :nganhNghe"),
     @NamedQuery(name = "Employer.findByIsApproved", query = "SELECT e FROM Employer e WHERE e.isApproved = :isApproved")})
 public class Employer implements Serializable {
 
@@ -61,16 +65,23 @@ public class Employer implements Serializable {
     @Size(max = 200)
     @Column(name = "avatar")
     private String avatar;
+    @Size(max = 50)
+    @Column(name = "NganhNghe")
+    private String nganhNghe;
     @Column(name = "isApproved")
     private Boolean isApproved;
     @JoinColumn(name = "userID", referencedColumnName = "id")
     @ManyToOne
     private User userID;
     @OneToMany(mappedBy = "employerID")
+    @JsonIgnore
     private Set<Employerreview> employerreviewSet;
     @OneToMany(mappedBy = "employerID")
+    @JsonIgnore
     private Set<Job> jobSet;
 
+    @Transient
+    private MultipartFile file;
     public Employer() {
     }
 
@@ -124,6 +135,14 @@ public class Employer implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getNganhNghe() {
+        return nganhNghe;
+    }
+
+    public void setNganhNghe(String nganhNghe) {
+        this.nganhNghe = nganhNghe;
     }
 
     public Boolean getIsApproved() {
@@ -183,6 +202,20 @@ public class Employer implements Serializable {
     @Override
     public String toString() {
         return "com.qlvl.pojo.Employer[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

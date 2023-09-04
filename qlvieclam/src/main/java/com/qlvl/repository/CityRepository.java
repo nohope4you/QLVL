@@ -13,5 +13,5 @@ import java.util.Map;
  * @author ACER
  */
 public interface CityRepository {
-    List<City> getCity(Map<String,String> params);
+    List<City> getCity();
 }

@@ -7,5 +7,8 @@ function delJob(path,id){
             location.reload();
         else 
             alert("ERROR");
-    })
+    });
 }
+
+
+

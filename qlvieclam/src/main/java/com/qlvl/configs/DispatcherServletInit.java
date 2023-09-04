@@ -8,7 +8,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  *
- * @author ACER
+ * @author Admin
  */
 
 public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherServletInitializer{
@@ -18,7 +18,8 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
         return new Class[]{
             HibernateConfig.class,
             TilesConfigs.class,
-            SpringSecurityConfig.class
+            SpringSecurityConfig.class,
+            JwtSecurityConfig.class
         };
     }
 

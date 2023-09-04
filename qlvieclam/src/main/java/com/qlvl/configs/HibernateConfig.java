@@ -19,7 +19,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 /**
  *
- * @author ACER
+ * @author Admin
  */
 @Configuration
 @PropertySource("classpath:databases.properties")

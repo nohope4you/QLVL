@@ -13,5 +13,5 @@ import java.util.Map;
  * @author ACER
  */
 public interface MajorRepository {
-    List<Major> getMajor(Map<String,String> params);
+    List<Major> getMajor();
 }

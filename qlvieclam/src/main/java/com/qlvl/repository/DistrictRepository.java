@@ -13,5 +13,5 @@ import java.util.Map;
  * @author ACER
  */
 public interface DistrictRepository {
-    List<District> getDistrict(Map<String,String> params);
+    List<District> getDistrict();
 }

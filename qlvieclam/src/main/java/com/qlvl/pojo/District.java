@@ -4,6 +4,7 @@
  */
 package com.qlvl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -43,6 +44,7 @@ public class District implements Serializable {
     @Column(name = "nameDistrict")
     private String nameDistrict;
     @OneToMany(mappedBy = "districID")
+    @JsonIgnore
     private Set<Job> jobSet;
 
     public District() {

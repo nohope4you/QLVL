@@ -22,8 +22,8 @@ public class DistrictServiceImpl implements DistrictService{
     public DistrictRepository DistrictRepo;
     
     @Override
-    public List<District> getDistrict(Map<String, String> params) {
-       return this.DistrictRepo.getDistrict(params);
+    public List<District> getDistrict() {
+       return this.DistrictRepo.getDistrict();
     }
     
 }

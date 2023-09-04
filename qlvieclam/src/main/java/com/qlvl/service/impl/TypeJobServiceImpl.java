@@ -22,8 +22,8 @@ public class TypeJobServiceImpl implements TypeJobService {
     public TypeJobRepository TypeJobRepo;
 
     @Override
-    public List<Typejob> getTypeJob(Map<String, String> params) {
-        return this.TypeJobRepo.getTypeJob(params);
+    public List<Typejob> getTypeJob() {
+        return this.TypeJobRepo.getTypeJob();
     }
 
 }

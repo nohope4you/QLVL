@@ -19,13 +19,13 @@
         <put-attribute name="content"
                        value="/WEB-INF/pages/index.jsp" />
     </definition>
-      <definition name="createJob" extends="baseLayout">
+    <definition name="createJob" extends="baseLayout">
         <put-attribute name="title" value="Đăng ký job" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/createJob.jsp" />
     </definition>
     
-     <definition name="JobDetail" extends="baseLayout">
+    <definition name="JobDetail" extends="baseLayout">
         <put-attribute name="title" value="Chi tiết job" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/JobDetail.jsp" />
@@ -34,5 +34,57 @@
         <put-attribute name="title" value="Đăng nhập" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/login.jsp" />
+    </definition>
+    <definition name="Application" extends="baseLayout">
+        <put-attribute name="title" value="Ứng tuyển" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/Application.jsp" />
+    </definition>
+    
+    <definition name="SignUp" extends="baseLayout">
+        <put-attribute name="title" value="Đăng ký" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/SignUp.jsp" />
+    </definition>
+    
+    <definition name="Admin" extends="baseLayout">
+        <put-attribute name="title" value="Trang quản trị" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/Admin.jsp" />
+    </definition>
+    <definition name="Employer" extends="baseLayout">
+        <put-attribute name="title" value="Đăng ký nhà tuyển dụng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/Employer.jsp" />
+    </definition>
+    <definition name="CheckEmployer" extends="baseLayout">
+        <put-attribute name="title" value="Xác nhận nhà tuyển dụng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/CheckEmployer.jsp" />
+    </definition>
+    <definition name="ThongKe" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/ThongKe.jsp" />
+    </definition>
+    <definition name="Review" extends="baseLayout">
+        <put-attribute name="title" value="Đánh giá" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/Review.jsp" />
+    </definition>
+    <definition name="ReviewDetail" extends="baseLayout">
+        <put-attribute name="title" value="Thông tin đánh giá" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/ReviewDetail.jsp" />
+    </definition>
+     <definition name="InfoUser" extends="baseLayout">
+        <put-attribute name="title" value="Thông tin cá nhân" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/InfoUser.jsp" />
+    </definition>
+    <definition name="SearchUser" extends="baseLayout">
+        <put-attribute name="title" value="Tìm kiếm ứng viên" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/SearchUser.jsp" />
     </definition>
 </tiles-definitions>

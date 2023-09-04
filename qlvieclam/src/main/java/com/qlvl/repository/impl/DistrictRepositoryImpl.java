@@ -25,7 +25,7 @@ public class DistrictRepositoryImpl implements DistrictRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<District> getDistrict(Map<String, String> params) {
+    public List<District> getDistrict() {
         Session session = this.factory.getObject().getCurrentSession();
         Query query = session.createQuery("FROM District");
         return query.getResultList();

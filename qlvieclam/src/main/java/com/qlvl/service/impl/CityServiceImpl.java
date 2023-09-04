@@ -22,8 +22,8 @@ public class CityServiceImpl implements CityService{
     public CityRepository CityRepo;
     
     @Override
-    public List<City> getCity(Map<String, String> params) {
-      return this.CityRepo.getCity(params);
+    public List<City> getCity() {
+      return this.CityRepo.getCity();
     }
     
 }
