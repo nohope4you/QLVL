@@ -4,7 +4,9 @@
  */
 package com.qlvl.controllers;
 
+import com.qlvl.pojo.Application;
 import com.qlvl.pojo.Job;
+import com.qlvl.service.ApplicationService;
 import com.qlvl.service.JobService;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -28,7 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ApiJobController {
-
+    @Autowired
+    private ApplicationService AppRepo;
     @Autowired
     private JobService JobSer;
 
@@ -43,6 +48,12 @@ public class ApiJobController {
     public ResponseEntity<List<Job>> list(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.JobSer.getJob(params), HttpStatus.OK);
     }
+    
+    @RequestMapping("/GetJob/{id}")
+    @CrossOrigin
+    public ResponseEntity<Job> details(@PathVariable(value = "id") int id) {
+        return new ResponseEntity<>(this.JobSer.getJobById(id), HttpStatus.OK);
+    }
     @RequestMapping(path = "")
 
     @PostMapping(path = "/Job", consumes = {
@@ -52,6 +63,13 @@ public class ApiJobController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addJob() {
 
+    }
+    
+    @PostMapping(path = "/getApplication/")
+    @CrossOrigin
+    public ResponseEntity<Application> addAppJwt (@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
+        Application app = this.AppRepo.addAppJwt(params, avatar);
+        return new ResponseEntity<>(app, HttpStatus.CREATED);
     }
 
 }

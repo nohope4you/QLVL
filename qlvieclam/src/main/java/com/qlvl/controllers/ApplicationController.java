@@ -81,5 +81,7 @@ public class ApplicationController {
         model.addAttribute("app", new Application());
         return "Application";
     }
+    
+    
 
 }

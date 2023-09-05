@@ -132,6 +132,7 @@ const Home = () => {
                     </thead>
                     <tbody>
                         {Object.values(job).map(c => {
+                            let url = `/job/${c.id}`;
                             return <tr>
                                 <td>
                                     <Card style={{ width: '10rem' }}>
@@ -150,7 +151,7 @@ const Home = () => {
 
 
                                 <td>
-                                    <Button variant="danger">Xoá</Button>
+                                    <Button variant="danger" href={url}>Ứng tuyển</Button>
                                 </td>
                             </tr>
                         })}

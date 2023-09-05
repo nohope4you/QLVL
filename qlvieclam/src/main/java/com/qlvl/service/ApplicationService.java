@@ -5,6 +5,8 @@
 package com.qlvl.service;
 
 import com.qlvl.pojo.Application;
+import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -13,4 +15,5 @@ import com.qlvl.pojo.Application;
 public interface ApplicationService {
     Application getAppById(int id);
     boolean addApp(Application app);
+     Application addAppJwt(Map<String, String> params, MultipartFile avatar);
 }

@@ -95,9 +95,10 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Button variant="info" type="submit">
+                {loading === true?<MySpinner/>:<Button variant="info" type="submit">
                     Đăng ký
-                </Button>
+                </Button>}
+
             </Form.Group>
         </Form>
     </>

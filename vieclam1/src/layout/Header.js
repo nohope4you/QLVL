@@ -35,13 +35,15 @@ const Header = () => {
                         <Link className="nav-link" to="/"> Tìm kiếm ứng viên</Link>
                         <Link className="nav-link" to="/"> Đánh giá</Link>
 
-                        {user === null ? <>
-                        <Link className="nav-link" to="/login"> Đăng nhập</Link>
-                        <Link className="nav-link" to="/register"> Đăng ký</Link>
-                        </>: <>
-                        <Link className="nav-link" to="/"> {user}</Link>
-                        <Button variant="secondary" onClick={logout}> Đăng xuất</Button>
-                        </>}
+                        { user === null ? <>
+                        <Link className="nav-link text-danger" to="/login">Đăng nhập</Link>
+                        <Link className="nav-link text-danger" to="/register">Đăng ký</Link>
+                        
+                       
+                    </>: <>
+                        <Link className="nav-link text-danger" to="/">Chào {user.username}!</Link>
+                        <Button variant="secondary" onClick={logout}>Đăng xuất</Button>
+                    </>}
 
                         <Form onSubmit={search} inline>
                             <Row>

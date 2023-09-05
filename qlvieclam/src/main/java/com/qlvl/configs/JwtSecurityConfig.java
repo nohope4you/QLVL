@@ -60,12 +60,14 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/api/**");
+        http.authorizeRequests().antMatchers("/api/**/").permitAll();
         http.authorizeRequests().antMatchers("/api/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/GetCity/").permitAll();
         http.authorizeRequests().antMatchers("/api/GetJob/**").permitAll();
         http.authorizeRequests().antMatchers("/api/GetMajor/").permitAll();
         http.authorizeRequests().antMatchers("/api/GetTypeJob/").permitAll();
         http.authorizeRequests().antMatchers("/api/GetEducation/").permitAll();
+        http.authorizeRequests().antMatchers("/api/getApplication").permitAll();
         http.authorizeRequests().antMatchers("/api/GetDistrict/").permitAll();
         http.authorizeRequests().antMatchers("/api/users/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/comments/").permitAll();

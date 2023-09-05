@@ -7,14 +7,15 @@ import Register from "./components/Register";
 import { createContext, useReducer } from "react";
 import MyUserReducer from "./reducers/MyUserReducer";
 import cookie from "react-cookies";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Application from "./components/Application";
+import JobDetail from "./components/JobDetail";
+
 
 export const MyUserContext = createContext();
 
 
 const App = () => {
-  const [user,dispatch] = useReducer(MyUserReducer, cookie.load("user",null));
+  const [user, dispatch] = useReducer(MyUserReducer, cookie.load("user") || null);
 
   return (
     < MyUserContext.Provider value={[user,dispatch]}>
@@ -24,6 +25,8 @@ const App = () => {
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/application" element={<Application/>} />
+          <Route path="/job/:id" element={<JobDetail/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
