@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface TypeJobService {
     List<Typejob> getTypeJob();
+    Typejob getTypejobById(int id);
 }

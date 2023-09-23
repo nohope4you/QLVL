@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface EducationRepository {
     List<Education> getEdu();
+    Education getEducationById(int id);
 }

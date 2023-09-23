@@ -29,4 +29,10 @@ public class MajorRepositoryImpl implements MajorRepository{
         Query query = session.createQuery("FROM Major");
         return query.getResultList();
     }
+
+    @Override
+    public Major getMajorById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Major.class, id);    
+    }
 }

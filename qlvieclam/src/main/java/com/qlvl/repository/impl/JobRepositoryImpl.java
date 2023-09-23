@@ -159,4 +159,31 @@ public class JobRepositoryImpl implements JobRepository {
         }
 
     }
+
+    @Override
+    public boolean addJobJwt(Job j) {
+        Session s = this.factory.getObject().getCurrentSession();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        User u = this.UserRepo.getUserByUserName(authentication.getName());
+//        Employer e = this.EmplRepo.getEmployerByUserId(u.getId());
+//        
+//        j.setEmployerID(e);
+        Date date = new Date();
+        j.setCreatedDate(date);
+        
+        try {
+
+            if (j.getId() == null && j.getEmployerID().getIsApproved()) {
+                s.save(j);
+            } else {
+                s.update(j);
+            }
+
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
 }

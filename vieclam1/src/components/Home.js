@@ -7,6 +7,7 @@ import MySpinner from "../layout/MySpinner";
 import format from "date-fns/format";
 import Apis, { endpoints } from "../configs/Apis";
 const Home = () => {
+    
     const[q]=useSearchParams();
 
     const [city, setCity] = useState(null);
@@ -67,6 +68,7 @@ const Home = () => {
 
     return (
             <>
+
                 <Navbar expand="lg" className="bg-body-tertiary">
                     <Container>
     
@@ -110,8 +112,8 @@ const Home = () => {
     
                 </Navbar>
     
-    
-    
+                                    
+                <Button href="/newjob" > thêm job </Button>
     
                 <Container className="mt-5">
     

@@ -46,6 +46,7 @@ public class ApiUserController {
 
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
+    
     @PostMapping(path = "/users/", 
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
             produces = {MediaType.APPLICATION_JSON_VALUE})

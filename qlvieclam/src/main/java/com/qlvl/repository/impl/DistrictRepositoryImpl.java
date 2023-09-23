@@ -30,4 +30,10 @@ public class DistrictRepositoryImpl implements DistrictRepository{
         Query query = session.createQuery("FROM District");
         return query.getResultList();
     }
+
+    @Override
+    public District getDistrictById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(District.class, id);
+    }
 }

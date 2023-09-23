@@ -25,5 +25,11 @@ public class DistrictServiceImpl implements DistrictService{
     public List<District> getDistrict() {
        return this.DistrictRepo.getDistrict();
     }
+
+    @Override
+    public District getDistrictById(int id) {
+        return this.DistrictRepo.getDistrictById(id);
+    }
+    
     
 }

@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface DistrictRepository {
     List<District> getDistrict();
+    District getDistrictById(int id);
 }

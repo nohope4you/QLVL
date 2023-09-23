@@ -26,4 +26,11 @@ public class EducationServiceImpl implements EducationService {
         return this.EduRepo.getEdu();
     }
 
+    @Override
+    public Education getEducationById(int id) {
+        return this.EduRepo.getEducationById(id);
+    }
+    
+    
+
 }

@@ -30,4 +30,9 @@ public class TypeJobRepositoryImpl implements TypeJobRepository{
         Query query = session.createQuery("FROM Typejob");
         return query.getResultList();
     }
+
+    @Override
+    public Typejob getTypejobById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Typejob.class, id);    }
 }

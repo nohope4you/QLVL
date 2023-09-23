@@ -13,6 +13,7 @@ export const endpoints = {
     "login":"/QLViecLam/api/login/",
     "current-user":"/QLViecLam/api/current-user/",
     "register":"/QLViecLam/api/users/",
+    "newjob":"/QLViecLam/api/NewJob/",
 }
 
 export const authApi = () => {

@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface CityRepository {
     List<City> getCity();
+    City getCityById(int id);
 }

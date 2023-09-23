@@ -29,4 +29,10 @@ public class EducationRepositoryImpl implements EducationRepository{
         Query query = session.createQuery("FROM Education");
         return query.getResultList();
     }
+
+    @Override
+    public Education getEducationById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Education.class, id);    
+    }
 }
