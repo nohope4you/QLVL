@@ -15,4 +15,5 @@ import com.qlvl.pojo.Application;
 public interface ApplicationRepository {
     Application getAppById(int id);
      boolean addApp(Application app);
+     boolean addAppJwt (Application A);
 }

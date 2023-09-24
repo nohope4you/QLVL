@@ -69,4 +69,27 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
        return s.get(Application.class, id);
     }
 
+    @Override
+    public boolean addAppJwt(Application A) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Date date = new Date();
+        A.setCreateDate(date);
+//        if(app.getHo().isEmpty() || app.getTen().isEmpty()||app.getEmail().isEmpty()||
+//                app.getSdt().isEmpty()||app.getNamKinhNghiem()==null|| app.getFile().isEmpty())
+//            return false;
+        try {
+            if (A.getId() == null) {
+
+                s.save(A);
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
 }

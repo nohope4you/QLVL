@@ -6,9 +6,14 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import MySpinner from "../layout/MySpinner";
 import format from "date-fns/format";
 import Apis, { endpoints } from "../configs/Apis";
-import { MyCookieContext } from "../App";
-const Home = () => {
+import { MyCookieContext, MyUserContext } from "../App";
+
+
+
+const EmpJob = () => {
     
+    const [user,] = useContext(MyUserContext);
+    const [kw, setKw] = useState("");
     const[q]=useSearchParams();
     const [,setSave] = useContext(MyCookieContext);
     const [city, setCity] = useState(null);
@@ -31,13 +36,25 @@ const Home = () => {
         let res = await Apis.get(endpoints['education'])
         setEdu(res.data);
     }
+    const [emp, setEmp] = useState(null);
+    const loadEmp = async () => {
+        let res = await Apis.get(endpoints['empjob'])
+        setEmp(res.data);
+    }
+
+    const nav = useNavigate();
+    const search = (evt) => {
+        evt.preventDefault();
+        nav(`/?kw=${kw}`)
+    }
 
     setSave({
         "type": "dec",
         "payload" : 1
     })
 
-    const [job, setJob] = useState(null);
+    const [job, setJob] = useState(null
+    );
     useEffect(() => {
         const loadJobs = async () => {
            try {
@@ -46,6 +63,7 @@ const Home = () => {
                 let kw = q.get("kw");
                 if (kw !== null)
                     e = `${e}?kw=${kw}`;
+
             
             
             let res = await Apis.get(e);
@@ -63,66 +81,35 @@ const Home = () => {
         loadMajor();
         loadTypeJob();
         loadEdu();
+        loadEmp();
     }, [])
 
-    if (city === null || major === null || edu === null || typeJob === null || job === null)
-    return <MySpinner />
 
-    if (job.length === 0)
-        return <Alert variant="info" className="mt-1">Không có sản phẩm nào!</Alert>
+    if (city === null || major === null || edu === null || typeJob === null || job === null)
+        return <MySpinner />
+
 
 
     return (
-            <>
-
-                <Navbar expand="lg" className="bg-body-tertiary">
-                    <Container>
-    
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="me-auto">
-                                <Link className="nav-link" to="/">Lọc</Link>
-                                <NavDropdown title=" Thành phố" id="basic-nav-dropdown">
-                                    {city.map(c => {
-                                        let h = `/?cityId=${c.id}`;
-                                        return <Link className="dropdown-item" to={h} key={c.id}>{c.nameCity}</Link>
-                                    })}
-    
-                                </NavDropdown>
-                                <NavDropdown title="Nghề nghiệp" id="basic-nav-dropdown">
-                                    {major.map(m => {
-                                        let mj = `/?majorId=${m.id}`;
-                                        return <Link className="dropdown-item" to={mj} key={m.id}>{m.nameMajor}</Link>
-                                    })}
-    
-                                </NavDropdown>
-                                <NavDropdown title="Hình thức" id="basic-nav-dropdown">
-                                    {typeJob.map(m => {
-                                        let mj = `/?typeJob=${m.id}`;
-                                        return <Link className="dropdown-item" to={mj} key={m.id}>{m.nameType}</Link>
-                                    })}
-    
-                                </NavDropdown>
-                                <NavDropdown title="Học vấn" id="basic-nav-dropdown">
-                                    {edu.map(m => {
-                                        let mj = `/?edu=${m.id}`;
-                                        return <Link className="dropdown-item" to={mj} key={m.id}>{m.typeEducation}</Link>
-                                    })}
-    
-                                </NavDropdown>
-    
-                            </Nav>
-                        </Navbar.Collapse>
-    
-                    </Container>
-    
-                </Navbar>
-    
-                                    
+            <>  
                 <Button href="/newjob" > thêm job </Button>
-    
                 <Container className="mt-5">
-    
+                <Form onSubmit={search} inline>
+                            <Row>
+                                <Col xs="auto">
+                                    <Form.Control
+                                        type="text"
+                                        value={kw}
+                                        onChange={e => setKw(e.target.value)}
+                                        placeholder="Nhập từ khóa..." name="kw"
+                                        className=" mr-sm-2"
+                                    />
+                                </Col>
+                                <Col xs="auto">
+                                    <Button type="submit">Tìm</Button>
+                                </Col>
+                            </Row>
+                        </Form>
                     <h1 className="text-center">DANH SÁCH VIỆC LÀM</h1>
              
                     <Table striped bordered hover>
@@ -141,7 +128,9 @@ const Home = () => {
                     <tbody>
                         {Object.values(job).map(c => {
                             let url = `/job/${c.id}`;
+
                             return <tr>
+                            
                                 <td>
                                     <Card style={{ width: '10rem' }}>
                                         <Card.Img variant="top" src={c.avatarJob} fluid rounded />
@@ -156,18 +145,22 @@ const Home = () => {
                                 <td>
                                     {format(new Date(c.createdDate), 'dd-MM-yyyy')}
                                 </td>
-
-
                                 <td>
-                                    <Button variant="danger" href={url}>Ứng tuyển</Button>
+                                {user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được sửa</p> : <>
+
+                                <Button variant="danger" href={url}>Sửa tin</Button>
+                                </>}
+
                                 </td>
+                                
                             </tr>
+                            
                         })}
                     </tbody>
                 </Table>
-            </Container>
-
+                </Container>
+                
         </>
     )
 }
-export default Home;
+export default EmpJob;

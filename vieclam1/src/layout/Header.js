@@ -4,6 +4,7 @@ import { Badge, Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } fr
 import { Link, useNavigate } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
 import { MyUserContext } from "../App";
+import cookie from "react-cookies";
 const Header = () => {
     const [user,dispatch] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
@@ -19,7 +20,6 @@ const Header = () => {
             "type": "logout"
         })
     }
-
     return (<>
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -34,15 +34,17 @@ const Header = () => {
                         <Link className="nav-link" to="/"> Đăng ký nhà tuyển dụng</Link>
                         <Link className="nav-link" to="/"> Tìm kiếm ứng viên</Link>
                         <Link className="nav-link" to="/"> Đánh giá</Link>
+                        <Link className="nav-link" to="/EmpJob"> Công việc đã đăng</Link>
 
                         { user === null ? <>
+                        
                         <Link className="nav-link text-danger" to="/login">Đăng nhập</Link>
                         <Link className="nav-link text-danger" to="/register">Đăng ký</Link>
                         
                        
                     </>: <>
                         <Link className="nav-link text-danger" to="/">Chào {user.username}!</Link>
-                        <Button variant="secondary" onClick={logout}>Đăng xuất</Button>
+                        <Button variant="secondary" onClick={logout} href="/" >Đăng xuất</Button>
                     </>}
 
                         <Form onSubmit={search} inline>

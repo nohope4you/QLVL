@@ -186,4 +186,12 @@ public class JobRepositoryImpl implements JobRepository {
         }
     }
 
+@Override
+    public List<Job> getJobByEmpl(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+            Query q = s.createQuery("FROM Job WHERE employerID.id=:idEmp");
+            q.setParameter("idEmp", id);
+            return q.getResultList();
+    }
+
 }

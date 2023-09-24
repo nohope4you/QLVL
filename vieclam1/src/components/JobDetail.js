@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import { MyUserContext } from "../App";
+import { MyCookieContext, MyUserContext } from "../App";
 import Apis, { authApi, endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
+import cookie from "react-cookies";
 
 const JobDetail = () => {
     const [user,] = useContext(MyUserContext);
+    const [,setSave] = useContext(MyCookieContext);
     const { id } = useParams();
     const [Job, setJob] = useState(null);
 
@@ -14,10 +16,30 @@ const JobDetail = () => {
         const loadJob = async () => {
             let { data } = await Apis.get(endpoints['details'](id));
             setJob(data);
+            setSave({
+                "type": "inc",
+                "payload" : data
+            })
         }
 
         loadJob();
     }, []);
+
+
+    const app = (Job) =>{
+    let savecookie=cookie.load("savecookie")|| null;
+    if(savecookie == null)
+        savecookie = {};
+
+        savecookie = {
+            "id": id
+        }
+
+        
+    cookie.save("savecookie",savecookie);
+    console.info(savecookie);
+    }
+    
 
     if (Job === null)
         return <MySpinner />;
@@ -46,7 +68,7 @@ const JobDetail = () => {
 
         {user === null ? <p>Vui lòng <Link to={url}>đăng nhập</Link> để nộp đơn ứng tuyển </p> : <>
 
-            <Button href="/application" className="mt-2" variant="info">Nộp đơn</Button>
+        <Button className="mt-2" variant="info" onClick={app}> <Link to="/application" style={{textDecoration:"none",color:"white"}}> Nộp đơn</Link></Button>
         </>}
         <hr />
 

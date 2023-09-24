@@ -41,7 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api")
 public class ApiJobController {
     @Autowired
-    private ApplicationService AppRepo;
+    private ApplicationService Appser;
     @Autowired
     private JobService JobSer;
 //        @Autowired
@@ -88,11 +88,21 @@ public ResponseEntity<Job> addJob(@RequestParam Map<String, String> params, @Req
     }
 
     
-    @PostMapping(path = "/getApplication/")
+    @PostMapping(path = "/getApplication/", 
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
-    public ResponseEntity<Application> addAppJwt (@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
-        Application app = this.AppRepo.addAppJwt(params, avatar);
+    @ResponseStatus
+    public ResponseEntity<Application> addAppJwt (@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarapp) {
+        Application app = this.Appser.addAppJwt(params, avatarapp);
         return new ResponseEntity<>(app, HttpStatus.CREATED);
+    }
+    
+
+    @RequestMapping("/GetJobByEmp/")
+    @CrossOrigin
+    public ResponseEntity<List<Employer>> lists(@RequestParam Map<String, String> params) {
+        return new ResponseEntity<>(this.emps.getEmp(params), HttpStatus.OK);
     }
 
 }

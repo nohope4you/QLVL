@@ -122,4 +122,12 @@ public class JobServiceImpl implements JobService{
         return j;
     }
     
+    @Override
+    public List<Job> getJobByEmpl(int id) {
+        
+        Employer e = this.emps.getEmployerByUserId(Integer.parseInt("idEmp"));
+        
+        return this.JobRepo.getJobByEmpl(e.getId());
+    }
+    
 }

@@ -6,31 +6,25 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { createContext, useReducer } from "react";
 import MyUserReducer from "./reducers/MyUserReducer";
+import MyJobReducer from "./reducers/MyJobReducer";
 import cookie from "react-cookies";
 import Application from "./components/Application";
 import JobDetail from "./components/JobDetail";
 import NewJob from "./components/NewJob";
+import EmpJob from "./components/EmpJob";
 
 
 export const MyUserContext = createContext();
+export const MyCookieContext = createContext();
 
-
-// const app = NewJob;
-// var cors = require('cors');
-// app.use(cors())
-
-// app.get("/api", (req, res) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*")
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Max-Age", "1800");
-//   res.setHeader("Access-Control-Allow-Headers", "content-type");
-//   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-//    });
 
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, cookie.load("user") || null);
+  const [savecookie,setSave] = useReducer(MyJobReducer,cookie.load("savecookie") || null);
+
   return (
     < MyUserContext.Provider value={[user,dispatch]}>
+      < MyCookieContext.Provider value={[savecookie,setSave]}>
       <BrowserRouter>
         <Header />
         <Routes>
@@ -41,9 +35,11 @@ const App = () => {
           <Route path="/application" element={<Application/>} />
           <Route path="/job/:id" element={<JobDetail/>} />
           <Route path="/newjob" element={<NewJob/>} />
+          <Route path="/empjob" element={<EmpJob/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
+      </MyCookieContext.Provider>
     </MyUserContext.Provider>
   )
 }

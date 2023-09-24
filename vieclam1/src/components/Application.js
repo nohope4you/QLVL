@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
 import { MyUserContext } from "../App";
+import cookie from "react-cookies";
 
 
 const Application = () => {
@@ -12,16 +13,20 @@ const Application = () => {
     const [err, setErr] = useState(null);
     const [loading, setLoading] = useState(false);
     const nav = useNavigate();
+    const [savecookie,] = useState(cookie.load("savecookie") || null);
+
     const [application, SetApplication] = useState({
         "ho": "",
         "ten": "",
+        "jobID": savecookie.id ,
+        "userID": user.id,
         "email": "",
         "sdt": "",
-        "NgheNghiep": "",
+        "ngheNghiep": "",
         "trinhDoHocVan": "",
         "addressUser": "",
-        "NamKinhNghiem": "",
-        "Tuoi": "",
+        "namKinhNghiem": "",
+        "tuoi": ""
     });
 
     const applications = (evt) => {
@@ -30,7 +35,10 @@ const Application = () => {
         const process = async () => {
             let form = new FormData();
 
-            form.append("fileCV", avatar.current.files[0]);
+            for (let field in application)
+            form.append(field, application[field]);
+
+            form.append("avatarapp", avatar.current.files[0]);
 
             setLoading(true)
             let res = await Apis.post(endpoints['application'], form);
@@ -68,7 +76,7 @@ const Application = () => {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Nghề nghiệp</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "NgheNghiep")} placeholder="NgheNghiep" />
+                <Form.Control type="text" onChange={(e) => change(e, "ngheNghiep")} placeholder="NgheNghiep" />
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -85,11 +93,11 @@ const Application = () => {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Năm kinh nghiệm </Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "NamKinhNghiem")} placeholder="Số năm kinh nghiệm" />
+                <Form.Control type="text" onChange={(e) => change(e, "namKinhNghiem")} placeholder="Số năm kinh nghiệm" />
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Tuổi tác </Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "Tuoi")} placeholder="Tuổi tác" />
+                <Form.Control type="text" onChange={(e) => change(e, "tuoi")} placeholder="Tuổi tác" />
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Ảnh đại diện</Form.Label>
