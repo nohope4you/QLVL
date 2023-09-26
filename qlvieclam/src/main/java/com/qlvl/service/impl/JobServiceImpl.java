@@ -129,5 +129,36 @@ public class JobServiceImpl implements JobService{
         
         return this.JobRepo.getJobByEmpl(e.getId());
     }
+
+    @Override
+    public Job updateJobJwt(Map<String, String> params, MultipartFile avatar) {
+            Job j = new Job();
+    Employer e = this.emps.getEmployerByUserId(Integer.parseInt(params.get("idEmp")));
+    
+    j.setId(Integer.valueOf(params.get("id")));
+    j.setNameJob(params.get("nameJob"));
+    j.setSalary(params.get("salary"));
+    j.setSoLuongTuyenDung(Integer.valueOf(params.get("soLuongTuyenDung")));
+    j.setKinhNghiem(Integer.valueOf(params.get("kinhNghiem")));
+    j.setAge(Integer.valueOf(params.get("age")));
+    j.setCityID(this.CityService.getCityById(Integer.parseInt(params.get("cityID"))));
+    j.setMajorID(this.MajorService.getMajorById(Integer.parseInt(params.get("majorID"))));
+    j.setEmployerID(e);
+    j.setTypeJobID(this.TypeService.getTypejobById(Integer.parseInt(params.get("typeJobID"))));
+    j.setEducationID(this.EduService.getEducationById(Integer.parseInt(params.get("educationID"))));
+    j.setDistricID(this.DistrictService.getDistrictById(Integer.parseInt(params.get("districID"))));
+            if (!avatar.isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 
+                        ObjectUtils.asMap("resource_type", "auto"));
+                j.setAvatarJob(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(JobServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        this.JobRepo.addJobJwt(j);
+        return j;
+    }
     
 }

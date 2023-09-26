@@ -93,5 +93,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         this.AppRepo.addAppJwt(app);
         return app;
     }
+    
+    @Override
+    public boolean deleteAppByJobID(int id) {
+     return this.AppRepo.deleteAppByJobID(id);
+    }
 
 }

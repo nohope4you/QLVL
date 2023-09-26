@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -58,9 +59,11 @@ public class ApiJobController {
 //    @Autowired
 //    private EducationService EduService;
 
-    @DeleteMapping("/createJob/{id}")
+    @DeleteMapping("/deleteJob/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CrossOrigin
     public void DeleteJob(@PathVariable(value = "id") int id) {
+        this.Appser.deleteAppByJobID(id);
         this.JobSer.deleteJob(id);
     }
 
@@ -103,6 +106,17 @@ public ResponseEntity<Job> addJob(@RequestParam Map<String, String> params, @Req
     @CrossOrigin
     public ResponseEntity<List<Employer>> lists(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.emps.getEmp(params), HttpStatus.OK);
+    }
+    
+    @PostMapping(path = "/UpdateJob/", 
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @CrossOrigin
+     @ResponseStatus
+    public ResponseEntity<Job> UpdateJob(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarJob) {
+            
+        Job jsb = this.JobSer.updateJobJwt(params, avatarJob);
+        return new ResponseEntity<>(jsb, HttpStatus.OK);
     }
 
 }

@@ -16,4 +16,5 @@ public interface ApplicationService {
     Application getAppById(int id);
     boolean addApp(Application app);
      Application addAppJwt(Map<String, String> params, MultipartFile avatar);
+     boolean deleteAppByJobID(int id);
 }

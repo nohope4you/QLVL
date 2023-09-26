@@ -22,4 +22,5 @@ public interface JobService {
     boolean deleteJob(int id);
     Job addJobJwt(Map<String, String> params, MultipartFile avatar);
     List<Job> getJobByEmpl(int id);
+    Job updateJobJwt(Map<String, String> params, MultipartFile avatar);
 }

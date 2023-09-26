@@ -6,7 +6,7 @@ import Apis, { authApi, endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
 import cookie from "react-cookies";
 
-const JobDetail = () => {
+const JobDetailBeforeUpdate = () => {
     const [user,] = useContext(MyUserContext);
     const [,setSave] = useContext(MyCookieContext);
     const { id } = useParams();
@@ -84,11 +84,11 @@ const JobDetail = () => {
 
         {user === null ? <p>Vui lòng <Link to={url}>đăng nhập</Link> để nộp đơn ứng tuyển </p> : <>
 
-        <Button className="mt-2" variant="info" onClick={app}> <Link to="/application" style={{textDecoration:"none",color:"white"}}> Nộp đơn</Link></Button>
+        <Button className="mt-2" variant="info" onClick={app}> <Link to="/UpdateJob" style={{textDecoration:"none",color:"white"}}> Sửa tin</Link></Button>
         <hr /></>}
 
         <Button href="/" className="mt-2" variant="info">Trở về</Button>
     </>
 }
 
-export default JobDetail;
+export default JobDetailBeforeUpdate;

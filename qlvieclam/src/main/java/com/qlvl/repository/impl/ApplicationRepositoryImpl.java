@@ -91,5 +91,18 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
             return false;
         }
     }
+    
+    @Override
+    public boolean deleteAppByJobID(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("DELETE FROM Application WHERE jobID.id=:xid");
+        q.setParameter("xid", id);
+        int result = q.executeUpdate();
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
