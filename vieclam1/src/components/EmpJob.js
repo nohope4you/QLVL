@@ -11,12 +11,12 @@ import { MyCookieContext, MyUserContext } from "../App";
 
 
 const EmpJob = () => {
-    
+
     const [user,] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
-    const[q]=useSearchParams();
+    const [q] = useSearchParams();
     const { id } = useParams();
-    const [,setSave] = useContext(MyCookieContext);
+    const [, setSave] = useContext(MyCookieContext);
     const [deleteJob, setdeletejob] = useState(null);
     const [city, setCity] = useState(null);
     const loadCity = async () => {
@@ -52,31 +52,31 @@ const EmpJob = () => {
 
     setSave({
         "type": "dec",
-        "payload" : 1
+        "payload": 1
     })
 
     const [job, setJob] = useState(null
     );
     useEffect(() => {
         const loadJobs = async () => {
-           try {
-            let e = endpoints['job'];
+            try {
+                let e = endpoints['job'];
 
                 let kw = q.get("kw");
                 if (kw !== null)
                     e = `${e}?kw=${kw}`;
 
-            
-            
-            let res = await Apis.get(e);
-            setJob(res.data);
-           } catch (ex) {
-               console.error(ex);
-           }
+
+
+                let res = await Apis.get(e);
+                setJob(res.data);
+            } catch (ex) {
+                console.error(ex);
+            }
         }
 
         loadJobs();
-    }, [q]); 
+    }, [q]);
 
     useEffect(() => {
         loadCity();
@@ -86,10 +86,10 @@ const EmpJob = () => {
         loadEmp();
     }, [])
 
-    const deletes = (deleteJob) =>{
+    const deletes = (deleteJob) => {
         const loadJob = async () => {
-        let { data } = await Apis.delete(endpoints['delete'](deleteJob));
-        nav("/")
+            let { data } = await Apis.delete(endpoints['delete'](deleteJob));
+            nav("/")
         }
         loadJob();
     }
@@ -101,36 +101,36 @@ const EmpJob = () => {
 
 
     return (
-            <>  
-            
-                <Button href="/newjob" > thêm job </Button>
-                <Container className="mt-5">
+        <>
+
+            <Button href="/newjob" > thêm job </Button>
+            <Container className="mt-5">
                 <Form onSubmit={search} inline>
-                            <Row>
-                                <Col xs="auto">
-                                    <Form.Control
-                                        type="text"
-                                        value={kw}
-                                        onChange={e => setKw(e.target.value)}
-                                        placeholder="Nhập từ khóa..." name="kw"
-                                        className=" mr-sm-2"
-                                    />
-                                </Col>
-                                <Col xs="auto">
-                                    <Button type="submit">Tìm</Button>
-                                </Col>
-                            </Row>
-                        </Form>
-                    <h1 className="text-center">DANH SÁCH VIỆC LÀM</h1>
-             
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Hình ảnh</th>
-                                <th>Công việc</th>
-                                <th>Mức lương</th>
-                                <th>Số lượng</th>
-                                <th>Ngành tuyển dụng</th>
+                    <Row>
+                        <Col xs="auto">
+                            <Form.Control
+                                type="text"
+                                value={kw}
+                                onChange={e => setKw(e.target.value)}
+                                placeholder="Nhập từ khóa..." name="kw"
+                                className=" mr-sm-2"
+                            />
+                        </Col>
+                        <Col xs="auto">
+                            <Button type="submit">Tìm</Button>
+                        </Col>
+                    </Row>
+                </Form>
+                <h1 className="text-center">DANH SÁCH VIỆC LÀM</h1>
+
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Công việc</th>
+                            <th>Mức lương</th>
+                            <th>Số lượng</th>
+                            <th>Ngành tuyển dụng</th>
                             <th>Nhà tuyển dụng</th>
                             <th>Ngày đăng</th>
                             <th></th>
@@ -142,7 +142,7 @@ const EmpJob = () => {
                             let url = `/jobs/${c.id}`;
 
                             return <tr>
-                            
+
                                 <td>
                                     <Card style={{ width: '10rem' }}>
                                         <Card.Img variant="top" src={c.avatarJob} fluid rounded />
@@ -157,23 +157,27 @@ const EmpJob = () => {
                                     {format(new Date(c.createdDate), 'dd-MM-yyyy')}
                                 </td>
                                 <td>
-                                {user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được sửa</p> : <>
+                                    {user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được sửa</p> : <>
 
-                                <Button variant="danger" href={url}>Sửa tin</Button>
-                                
-                                
+                                        <Button variant="danger" href={url}>Sửa tin</Button>
+
+
+                                    </>}
+
+                                </td>{user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được xóa</p> : <>
+
+                                    <td><Button variant="danger" onClick={() => deletes(c.id)} >Xóa tin</Button></td>
+
+
                                 </>}
 
-                                </td>
-                                <td><Button variant="danger" onClick={() => deletes(c.id)} >Xóa tin</Button></td>
-                                
                             </tr>
-                            
+
                         })}
                     </tbody>
                 </Table>
-                </Container>
-                
+            </Container>
+
         </>
     )
 }

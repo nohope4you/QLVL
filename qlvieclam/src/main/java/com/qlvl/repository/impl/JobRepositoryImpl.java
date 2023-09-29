@@ -176,7 +176,12 @@ public class JobRepositoryImpl implements JobRepository {
             if (j.getId() == null && j.getEmployerID().getIsApproved()) {
                 s.save(j);
             } else {
-                s.update(j);
+                if (j.getEmployerID().getIsApproved()){
+                    s.update(j);
+                }
+                else{
+                    return false;
+                }
             }
 
             return true;

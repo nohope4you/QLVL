@@ -9,6 +9,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.qlvl.pojo.Employer;
 import com.qlvl.pojo.User;
 import com.qlvl.repository.EmployerRepository;
+import com.qlvl.repository.UserRepository;
 import com.qlvl.service.EmployerService;
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -34,6 +36,9 @@ public class EmployerServiceImpl implements EmployerService {
     public List<Employer> getEmp(Map<String, String> params) {
         return this.EmployRepo.getEmp(params);
     }
+    
+            @Autowired
+    private UserRepository userRepo;
 
     @Override
     public boolean checkEmployer(Employer e) {
@@ -79,6 +84,32 @@ public class EmployerServiceImpl implements EmployerService {
     @Override
     public List<Employer> getAllEmpl(Map<String, String> params) {
      return this.EmployRepo.getAllEmpl(params);
+    }
+
+    @Override
+    public Employer addEmpJwt(Map<String, String> params, MultipartFile avatar) {
+        Employer e = new Employer();
+        User u = this.userRepo.getUserById(Integer.parseInt(params.get("userID")));
+       
+        e.setNameCompany(params.get("nameCompany"));
+        e.setNameEmployer(params.get("nameEmployer"));
+        e.setAddressComapny(params.get("addressComapny"));
+        e.setSoDienThoai(params.get("soDienThoai"));
+        e.setNganhNghe(params.get("nganhNghe"));
+        e.setUserID(u);
+        e.setIsApproved(false);
+                if (!avatar.isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 
+                        ObjectUtils.asMap("resource_type", "auto"));
+                e.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(EmployerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        this.EmployRepo.addEmpJwt(e);
+        return e;
     }
 
 }

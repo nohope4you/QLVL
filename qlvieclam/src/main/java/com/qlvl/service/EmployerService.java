@@ -7,6 +7,7 @@ package com.qlvl.service;
 import com.qlvl.pojo.Employer;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -26,4 +27,6 @@ public interface EmployerService {
 
     Employer FindEmployerByUserID(int id);
     List<Employer> getAllEmpl(Map<String, String> params);
+    
+        Employer addEmpJwt(Map<String, String> params, MultipartFile avatar);
 }

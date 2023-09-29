@@ -142,4 +142,22 @@ public class EmployerRepositoryImpl implements EmployerRepository {
         Query query = session.createQuery(q);
         return query.getResultList();
     }
+
+    @Override
+    public boolean addEmpJwt(Employer e) {
+              Session s = this.factory.getObject().getCurrentSession();
+
+        try {
+            if (e.getId() == null) {
+                s.save(e);
+            } else {
+
+                s.update(e);
+            }
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }

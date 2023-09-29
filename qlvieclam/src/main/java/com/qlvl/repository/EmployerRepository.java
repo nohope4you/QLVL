@@ -21,5 +21,5 @@ public interface EmployerRepository {
      Employer getEmployerByUserId(int id);
      Employer FindEmployerByUserID(int id);
      List<Employer> getAllEmpl(Map<String,String> params);
-  
+     boolean addEmpJwt(Employer e);
 }

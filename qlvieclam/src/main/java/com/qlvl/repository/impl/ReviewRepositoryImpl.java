@@ -12,6 +12,7 @@ import com.qlvl.repository.UserRepository;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.HibernateError;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,18 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             return false;
         }
 
+    }
+
+    @Override
+    public Employerreview addComment(Employerreview c) {
+                Session s = this.factory.getObject().getCurrentSession();
+        try {
+            s.save(c);
+            return c;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
 }

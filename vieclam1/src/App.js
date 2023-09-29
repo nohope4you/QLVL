@@ -4,6 +4,7 @@ import Header from "./layout/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import RegisterEmp from "./components/RegisterEmp";
 import { createContext, useReducer } from "react";
 import MyUserReducer from "./reducers/MyUserReducer";
 import MyJobReducer from "./reducers/MyJobReducer";
@@ -12,6 +13,7 @@ import Application from "./components/Application";
 import JobDetail from "./components/JobDetail";
 import NewJob from "./components/NewJob";
 import EmpJob from "./components/EmpJob";
+import ReviewEmp from "./components/ReviewEmp";
 import UpdateJob from "./components/UpdateJob";
 import JobDetailBeforeUpdate from "./components/JobDetailBeforeUpdate";
 
@@ -34,11 +36,13 @@ const App = () => {
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/registeremp" element={<RegisterEmp/>} />
           <Route path="/application" element={<Application/>} />
           <Route path="/job/:id" element={<JobDetail/>} />
           <Route path="/jobs/:id" element={<JobDetailBeforeUpdate/>} />
           <Route path="/newjob" element={<NewJob/>} />
           <Route path="/empjob" element={<EmpJob/>} />
+          <Route path="/empreview" element={<ReviewEmp/>} />
           <Route path="/updatejob" element={<UpdateJob/>} />
         </Routes>
         <Footer />

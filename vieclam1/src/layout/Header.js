@@ -31,9 +31,9 @@ const Header = () => {
                         <Link className="nav-link" to="/"> Hồ sơ</Link>
                         <Link className="nav-link" to="/"> Quản trị</Link>
                         <Link className="nav-link" to="/"> Thống kê</Link>
-                        <Link className="nav-link" to="/"> Đăng ký nhà tuyển dụng</Link>
+                        <Link className="nav-link" to="/RegisterEmp"> Đăng ký nhà tuyển dụng</Link>
                         <Link className="nav-link" to="/"> Tìm kiếm ứng viên</Link>
-                        <Link className="nav-link" to="/"> Đánh giá</Link>
+                        <Link className="nav-link" to="/empreview"> Đánh giá</Link>
                         <Link className="nav-link" to="/EmpJob"> Công việc đã đăng</Link>
 
                         { user === null ? <>

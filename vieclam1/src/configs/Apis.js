@@ -17,6 +17,10 @@ export const endpoints = {
     "empjob":"/QLViecLam/api/GetJobByEmp/",
     "delete":(id) => `/QLViecLam/api/deleteJob/${id}`,
     "updatejob":"/QLViecLam/api/UpdateJob/",
+    "registeremp":"/QLViecLam/api/employer/",
+    "empreview":"/QLViecLam/api/GetEmp/",
+    "comment": (id) `/QLViecLam/api/GetEmp/${id}/comments/`,
+    "addcomment":"/QLViecLam/api/comments/",
 }
 
 export const authApi = () => {

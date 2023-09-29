@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         
     @Autowired
     private UserRepository UserRepo;
+    
 
     @Autowired
     private Cloudinary cloudinary;
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUserJwt(Map<String, String> params, MultipartFile avatar) {
         User u = new User();
-        int x= 1;
+        int x= Integer.parseInt(params.get("roleID"));
         Role id = new Role(x);
        
         u.setUsername(params.get("username"));
@@ -112,7 +113,6 @@ public class UserServiceImpl implements UserService {
         u.setPassword(this.passEncoder.encode(params.get("password")));
         u.setNganhNghe(params.get("NganhNghe"));
         u.setRoleID(id);
-        u.setUserRole("ROLE_USER");
                 if (!avatar.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 
