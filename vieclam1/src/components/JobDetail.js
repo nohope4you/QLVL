@@ -56,7 +56,7 @@ const JobDetail = () => {
     if (Job === null)
         return <MySpinner />;
 
-    let url = `/login?next=/products/${id}`;
+    let url = `/login?next=/job/${id}`;
     return <>
         <h1 className="text-center text-danger mt-2">CHI TIẾT CÔNG VIỆC ({id})</h1>
         <Row >

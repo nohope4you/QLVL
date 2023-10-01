@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
-import { Alert, Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import Apis, { endpoints } from "../configs/Apis";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { MyCookieContext, MyUserContext } from "../App";
+import Apis, { authApi, endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
-
+import cookie from "react-cookies";
 
 const ReviewDetailEmp = () => {
 
@@ -11,96 +12,86 @@ const ReviewDetailEmp = () => {
     const [err, setErr] = useState(null);
     const [loading, setLoading] = useState(false);
     const nav = useNavigate();
-    const [user, SetUser] = useState({
-        "username": "",
-        "password": "",
-        "ho": "",
-        "ten": "",
-        "NganhNghe": "",
-        "roleID": "",
-        "confirmPass": ""
-    });
+    const [user,] = useContext(MyUserContext);
+    const [,setSave] = useContext(MyCookieContext);
+    const { id } = useParams();
+    const [Emp, setEmp] = useState(null);
+    const [comments, setComments] = useState(null);
+    const [content, setContent] = useState();
+    const [rate, setRate] = useState();
 
-    const register = (evt) => {
-        evt.preventDefault();
+    useEffect(() => {
+        const loademp = async () => {
+            let { data } = await Apis.get(endpoints['empdetail'](id));
+            setEmp(data);
+            setSave({
+                "type": "inc",
+                "payload" : data
+            })
+        }
+        const loadComments = async () => {
+            let {data} = await Apis.get(endpoints['comment'](id));
+            setComments(data);
+        }
+        loadComments();
+        loademp();
+    }, []);
 
+    const addComment = () => {
         const process = async () => {
-            let form = new FormData();
+            let {data} = await authApi().post(endpoints['addcomment'], {
+                "rating": rate,
+                "cmt": content, 
+                "employerID": Emp.id
+            });
 
-            for (let field in user)
-                if (field !== "confirmPass")
-                    form.append(field, user[field]);
-
-            form.append("avatar", avatar.current.files[0]);
-
-            setLoading(true)
-            let res = await Apis.post(endpoints['register'], form);
-            if (res.status === 201) {
-                nav("/login");
-            } else
-            setErr("Hệ thống bị lỗi!");
+            setComments([...comments, data]);
         }
 
-        if (user.password === user.confirmPass)
-            process();
-        else {
-            setErr("Mật khẩu KHÔNG khớp!");
-        }
+        process();
     }
 
-    const change = (evt, field) => {
-        // setUser({...user, [field]: evt.target.value})
-        SetUser(current => {
-            return {...current, [field]: evt.target.value}
-        })
-    }
+    if (Emp === null)
+        return <MySpinner />;
 
     return <>
-        <h1 className="text-center text-info mt-2"> ĐĂNG KÝ NGƯỜI DÙNG</h1>
-        {err === null?"":<Alert variant="danger">{err}</Alert>}
-        <Form onSubmit={register}>
-        <Form.Group className="mb-3">
-                <Form.Label>Tên đăng nhập</Form.Label>
-                <Form.Control value={user.username} onChange={(e) => change(e, "username")} type="text" placeholder="Tên đăng nhập" required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Mật khẩu</Form.Label>
-                <Form.Control value={user.password} onChange={(e) => change(e, "password")} type="password" placeholder="Mật khẩu" required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Xác nhận mật khẩu</Form.Label>
-                <Form.Control value={user.confirmPass} onChange={(e) => change(e, "confirmPass")} type="password" placeholder="Xác nhận mật khẩu" required />
-            </Form.Group>
+<h1 className="text-center text-danger mt-2">CHI TIẾT NHÀ TUYỂN DỤNG ({id})</h1>
+        <Row >
+            <Col md={5} xs={6}>
+                <Card style={{ width: 'auto' }}>
+                    <Card.Img variant="top" src={Emp.avatar} fluid rounded />
+                </Card>
+            </Col>
+            <Col md={5} xs={6}>
+                <h2 className="text-info">Tên công ty :     {Emp.nameCompany}</h2>
+                <h2 className="text-info">Tên nhà tuyển dụng :     {Emp.nameEmployer}</h2>
+                <h3> Địa chỉ :  {Emp.addressComapny} </h3>
+                <h3> Số điện thoại :  {Emp.soDienThoai} </h3>
+                <h3> Ngành nghề :  {Emp.nganhNghe} </h3>
+            </Col>
+        </Row>
+        <hr />
 
-            <Form.Group className="mb-3">
-                <Form.Label>Tên</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "ten")} placeholder="Tên" required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Họ và chữ lót</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "ho")} placeholder="Họ và chữ lót" required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Ngành nghề</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "NganhNghe")} placeholder="NganhNghe" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>vị trí</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "roleID")} placeholder="RoleId" />
-            </Form.Group>
+        <h3> Đánh giá độ hài lòng</h3>
+        <Form.Select onChange={e => setRate(e.target.value)}>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </Form.Select>
 
-            <Form.Group className="mb-3">
-                <Form.Label>Ảnh đại diện</Form.Label>
-                <Form.Control type="file" ref={avatar} />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-                {loading === true?<MySpinner/>:<Button variant="info" type="submit">
-                    Đăng ký
-                </Button>}
-
-            </Form.Group>
-        </Form>
+        <hr />
+        <h3>Bình luận </h3>
+        <Form.Control as="textarea" aria-label="With textarea" value={content} onChange={e => setContent(e.target.value)} placeholder="Nội dung bình luận" />
+        <Button onClick={addComment} className="mt-2" variant="info">Bình luận</Button>
+        <hr />
+        <ListGroup>
+            {comments.map(c => <ListGroup.Item id={c.id}>
+                        {c.userID.username} - {c.cmt} - {c.rating}
+                    </ListGroup.Item>)
+            }
+        </ListGroup>
     </>
 }
 

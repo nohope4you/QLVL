@@ -16,6 +16,7 @@ import EmpJob from "./components/EmpJob";
 import ReviewEmp from "./components/ReviewEmp";
 import UpdateJob from "./components/UpdateJob";
 import JobDetailBeforeUpdate from "./components/JobDetailBeforeUpdate";
+import ReviewDetailEmp from "./components/ReviewDetailEmp";
 
 
 export const MyUserContext = createContext();
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/empjob" element={<EmpJob/>} />
           <Route path="/empreview" element={<ReviewEmp/>} />
           <Route path="/updatejob" element={<UpdateJob/>} />
+          <Route path="/empreview/:id" element={<ReviewDetailEmp/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

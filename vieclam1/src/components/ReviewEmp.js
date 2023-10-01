@@ -91,7 +91,7 @@ const EmpJob = () => {
                     </thead>
                     <tbody>
                         {Object.values(emp).map(c => {
-
+                            let url = `/empreview/${c.id}`;
                             return <tr>
 
                                 <td>
@@ -107,7 +107,7 @@ const EmpJob = () => {
                                 <td>
                                     {user === null ? <p>Vui lòng <Link to="/login">đăng nhập</Link> để đánh giá nhà tuyển dụng </p> : <>
 
-                                        <Button className="mt-2" variant="info"> <Link to="/" style={{ textDecoration: "none", color: "white" }}> Đánh giá</Link></Button>
+                                        <Button className="mt-2" variant="info"> <Link to={url} style={{ textDecoration: "none", color: "white" }}> Đánh giá</Link></Button>
                                         <hr /></>}
                                 </td>
 
