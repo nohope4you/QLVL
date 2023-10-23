@@ -4,9 +4,7 @@
  */
 package com.qlvl.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -38,6 +34,10 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByHo", query = "SELECT u FROM User u WHERE u.ho = :ho"),
     @NamedQuery(name = "User.findByTen", query = "SELECT u FROM User u WHERE u.ten = :ten"),
+    @NamedQuery(name = "User.findByNamKinhNghiem", query = "SELECT u FROM User u WHERE u.namKinhNghiem = :namKinhNghiem"),
+    @NamedQuery(name = "User.findByTuoi", query = "SELECT u FROM User u WHERE u.tuoi = :tuoi"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findBySdt", query = "SELECT u FROM User u WHERE u.sdt = :sdt"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "User.findByNganhNghe", query = "SELECT u FROM User u WHERE u.nganhNghe = :nganhNghe"),
@@ -59,6 +59,17 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "ten")
     private String ten;
+    @Column(name = "NamKinhNghiem")
+    private Integer namKinhNghiem;
+    @Column(name = "Tuoi")
+    private Integer tuoi;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 50)
+    @Column(name = "email")
+    private String email;
+    @Size(max = 50)
+    @Column(name = "sdt")
+    private String sdt;
     @Size(max = 300)
     @Column(name = "password")
     private String password;
@@ -71,24 +82,12 @@ public class User implements Serializable {
     @Size(max = 20)
     @Column(name = "user_role")
     private String userRole;
-    @OneToMany(mappedBy = "userID")
-    @JsonIgnore
-    private Set<Application> applicationSet;
-    @OneToMany(mappedBy = "userID")
-    @JsonIgnore
-    private Set<Employer> employerSet;
-    @OneToMany(mappedBy = "userID")
-    @JsonIgnore
-    private Set<Employerreview> employerreviewSet;
     @JoinColumn(name = "roleID", referencedColumnName = "id")
     @ManyToOne
     private Role roleID;
-
-    @Transient
-    private MultipartFile file;
     
     @Transient
-    private String confirmPwd;
+    private MultipartFile file;
 
     public User() {
     }
@@ -129,6 +128,38 @@ public class User implements Serializable {
         this.ten = ten;
     }
 
+    public Integer getNamKinhNghiem() {
+        return namKinhNghiem;
+    }
+
+    public void setNamKinhNghiem(Integer namKinhNghiem) {
+        this.namKinhNghiem = namKinhNghiem;
+    }
+
+    public Integer getTuoi() {
+        return tuoi;
+    }
+
+    public void setTuoi(Integer tuoi) {
+        this.tuoi = tuoi;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -159,33 +190,6 @@ public class User implements Serializable {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
-    }
-
-    @XmlTransient
-    public Set<Application> getApplicationSet() {
-        return applicationSet;
-    }
-
-    public void setApplicationSet(Set<Application> applicationSet) {
-        this.applicationSet = applicationSet;
-    }
-
-    @XmlTransient
-    public Set<Employer> getEmployerSet() {
-        return employerSet;
-    }
-
-    public void setEmployerSet(Set<Employer> employerSet) {
-        this.employerSet = employerSet;
-    }
-
-    @XmlTransient
-    public Set<Employerreview> getEmployerreviewSet() {
-        return employerreviewSet;
-    }
-
-    public void setEmployerreviewSet(Set<Employerreview> employerreviewSet) {
-        this.employerreviewSet = employerreviewSet;
     }
 
     public Role getRoleID() {
@@ -234,19 +238,5 @@ public class User implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-
-    /**
-     * @return the confirmPwd
-     */
-    public String getConfirmPwd() {
-        return confirmPwd;
-    }
-
-    /**
-     * @param confirmPwd the confirmPwd to set
-     */
-    public void setConfirmPwd(String confirmPwd) {
-        this.confirmPwd = confirmPwd;
-    }
-
+    
 }

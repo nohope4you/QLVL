@@ -76,6 +76,16 @@ public class createJobController {
 
         model.addAttribute("EDUCATION", this.EduService.getEdu());
         model.addAttribute("TYPEJOB", this.TypeService.getTypeJob());
+        if(j.getFile().isEmpty()|| j.getNameJob().isEmpty()|| j.getSalary()==null || j.getKinhNghiem() ==null || j.getAge()==null || j.getAvatarJob().isEmpty())
+        {
+              redirect.addFlashAttribute("message", "Vui lòng không để trống thông tin công việc!!");
+            return "redirect:/Employer";
+        }
+        if(jobSer.addJob(j)==false){
+            redirect.addFlashAttribute("message", "Chưa đăng ký/ Chưa xác nhận nhà tuyển dụng!!");
+            return "redirect:/Employer";
+
+        }
         if (!rs.hasErrors()) {
             if (jobSer.addJob(j) == true) {
               

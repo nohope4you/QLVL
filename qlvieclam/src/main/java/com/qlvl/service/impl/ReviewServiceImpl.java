@@ -25,8 +25,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Autowired
     private ReviewRepository ReviewRepo;
-    
-        @Autowired
+    @Autowired
     private UserRepository userRepo;
     
     @Override
@@ -38,8 +37,8 @@ public class ReviewServiceImpl implements ReviewService{
     public boolean addReview(Employerreview er) {
      return this.ReviewRepo.addReview(er);
     }
-    
-    @Override
+
+     @Override
     public Employerreview addComment(Employerreview c) {
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,4 +47,5 @@ public class ReviewServiceImpl implements ReviewService{
         
         return this.ReviewRepo.addComment(c);
     }
+    
 }

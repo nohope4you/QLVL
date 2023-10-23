@@ -10,9 +10,9 @@
     <class>com.qlvl.pojo.Education</class>
     <class>com.qlvl.pojo.Role</class>
     <class>com.qlvl.pojo.City</class>
-    <class>com.qlvl.pojo.User</class>
     <class>com.qlvl.pojo.Application</class>
     <class>com.qlvl.pojo.Job</class>
+    <class>com.qlvl.pojo.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/qlvieclam?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

@@ -22,14 +22,10 @@
         </div> 
         <div class="mb-3 mt-3">
             <label for="email" class="form-label">Mật khẩu</label>
-            <form:input type="text" path="password" class="form-control" 
+            <form:input type="password" path="password" class="form-control" 
                         id="password" placeholder="Mật khẩu"/>
         </div> 
-<!--        <div class="mb-3 mt-3">
-            <label for="email" class="form-label">Nhập lại mật khẩu</label>
-            <form:input type="text" path="confirmPwd" class="form-control" 
-                        id="confirmPwd" placeholder="Nhập lại mật khẩu"/>
-        </div>-->
+
         <div class="mb-3 mt-3">
             <label for="email" class="form-label">Họ</label>
             <form:input type="text" path="ho" class="form-control" 
@@ -41,8 +37,28 @@
                         id="ten" placeholder="Nhập tên"/>
         </div> 
 
+  <div class="mb-3 mt-3">
+            <label for="namKinhNghiem" class="form-label">Năm kinh nghiệm</label>
+            <form:input type="number" path="namKinhNghiem" class="form-control" 
+                        id="namKinhNghiem" placeholder="Nhập số năm kinh nghiệm"/>
+        </div> 
 
-
+            <div class="mb-3 mt-3">
+                <label for="tuoi" class="form-label">Tuổi hiện tại</label>
+                <form:input type="number" path="tuoi" class="form-control" 
+                            id="tuoi" placeholder="Nhập tuổi"/>
+            </div> 
+        
+               <div class="mb-3 mt-3">
+                <label for="email" class="form-label">Email</label>
+                <form:input type="text" path="email" class="form-control" 
+                            id="email" placeholder="Nhập Email"/>
+            </div>
+              <div class="mb-3 mt-3">
+                <label for="sdt" class="form-label">Số điện thoại</label>
+                <form:input type="text" path="sdt" class="form-control" 
+                            id="sdt" placeholder="Nhập Email"/>
+            </div>
         <div  class="mb-3 mt-3">
             <label for="ngheNghiep" class="form-label">Chuyên ngành hiện tại</label>      
             <form:select class="form-select" id="nganhNghe" name="nganhNghe" path="nganhNghe">

@@ -38,7 +38,7 @@
             <form:input type="text" path="soDienThoai" class="form-control" 
                         id="soDienThoai" placeholder="Nhập số điện thoại công ty"/>
         </div>
-          <div  class="mb-3 mt-3">
+        <div  class="mb-3 mt-3">
             <label for="nganhNghe" class="form-label">Chuyên ngành công ty</label>      
             <form:select class="form-select" id="nganhNghe" name="nganhNghe" path="nganhNghe">
                 <c:forEach items="${MAJOR}" var="m">
@@ -51,7 +51,7 @@
             <form:input type="file" path="file" class="form-control" 
                         id="file"/>
         </div>
-        
+
         <c:if test="${not empty message}">
             <div class="alert alert-danger">
                 ${message}
@@ -59,6 +59,78 @@
         </c:if>
         <button type="submit" class="btn btn-primary">Đăng ký</button>
     </form:form>
+    <div class="container" style="margin-top:30px;width:1300px;" >
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Công việc</th>
+                    <th>Mức lương</th>
+                    <th>Số lượng</th>
+                    <th>Ngành tuyển dụng</th>
+                    <th>Nhà tuyển dụng</th>
+                    <td>Ngày đăng</td>
+                    <th></th>
+                    <th></th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody> 
+                <c:forEach items="${jobEmploy}" var="j">
+                    <tr>
+                        <td><img src="${j.avatarJob}" width="120" height="90"/></td>
+                        <td>${j.nameJob}</td>
+                        <td>${j.salary}</td>
+                        <td>${j.soLuongTuyenDung}</td>
+                        <td>${j.majorID.nameMajor}</td>
+                        <td>${j.employerID.nameEmployer}</td>
+                        <td>${j.createdDate}</td>
+                        <td>
+                            <c:url value="/api/createJob/${j.id}" var="deleteApi" />
+                            <a href="<c:url value="/createJob/${j.id}"/>" class="btn btn-success">Chỉnh sửa công việc</a>
 
+                        </td>
+                        <td>  
+                            <a href="<c:url value="/ListApplication/${j.id}"/>" class="btn btn-success">Xem đơn ứng tuyển</a>   
+                        </td>
+                        <td>  
+                            <button class="btn btn-danger" onclick="deleteJobApp(${j.id})">Xoá</button>  
+                        </td>
+
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
+<script>
+    function deleteJobApp(id) {
+        $.ajax({
+            url: "http://localhost:8080/QLViecLam/api/x/" + id,
+            method: "DELETE",
+            success: function () {
+                $.ajax({
+                    url: "http://localhost:8080/QLViecLam/api/createJob/" + id,
+                    method: "DELETE",
+                    success: function () {
+                        alert("Xoá thành công !!");
+                         location.reload();
+                        
+                    }
+                });
+            },
+            error: function () {
+                $.ajax({
+                    url: "http://localhost:8080/QLViecLam/api/createJob/" + id,
+                    method: "DELETE",
+                    success: function () {
+                        alert("Xoá thành công !!");
+                         location.reload();
+                    }
+                });
+
+            }
+        });
+    }
+</script>
 

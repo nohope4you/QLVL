@@ -18,22 +18,19 @@ import UpdateJob from "./components/UpdateJob";
 import JobDetailBeforeUpdate from "./components/JobDetailBeforeUpdate";
 import ReviewDetailEmp from "./components/ReviewDetailEmp";
 
-
 export const MyUserContext = createContext();
 export const MyCookieContext = createContext();
 
-
 const App = () => {
-  const [user, dispatch] = useReducer(MyUserReducer, cookie.load("user") || null);
+  const [user,dispatch] = useReducer(MyUserReducer, cookie.load("user")||null);
   const [savecookie,setSave] = useReducer(MyJobReducer,cookie.load("savecookie") || null);
 
   return (
     < MyUserContext.Provider value={[user,dispatch]}>
-      < MyCookieContext.Provider value={[savecookie,setSave]}>
-      <BrowserRouter>
+        < MyCookieContext.Provider value={[savecookie,setSave]}>
+       <BrowserRouter>
         <Header />
         <Routes>
-          
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
@@ -47,7 +44,7 @@ const App = () => {
           <Route path="/updatejob" element={<UpdateJob/>} />
           <Route path="/empreview/:id" element={<ReviewDetailEmp/>} />
         </Routes>
-        <Footer />
+        <Footer />    
       </BrowserRouter>
       </MyCookieContext.Provider>
     </MyUserContext.Provider>

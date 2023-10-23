@@ -14,5 +14,5 @@ import java.util.Map;
  */
 public interface EducationService {
     List<Education> getEdu();
-    Education getEducationById(int id);
+     Education getEducationById(int id);
 }

@@ -69,11 +69,8 @@ public class JobDetailController {
     @GetMapping("/JobDetail/{id}")
     public String UpdateView(Model model, @PathVariable(value = "id") int id) {
         model.addAttribute("CITY", this.CityService.getCity());
-        
         model.addAttribute("DISTRICT", this.DistrictService.getDistrict());
-
         model.addAttribute("MAJOR", this.MajorService.getMajor());
-
         model.addAttribute("EDUCATION", this.EduService.getEdu());
         model.addAttribute("TYPEJOB", this.TypeService.getTypeJob());
         model.addAttribute("JD", this.jobSer.getJobById(id));

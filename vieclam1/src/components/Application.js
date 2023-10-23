@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
@@ -9,12 +9,22 @@ import cookie from "react-cookies";
 
 const Application = () => {
     const [user,] = useContext(MyUserContext);
-    const avatar = useRef();
+  
     const [err, setErr] = useState(null);
     const [loading, setLoading] = useState(false);
     const nav = useNavigate();
     const [savecookie,] = useState(cookie.load("savecookie") || null);
-
+    const [edu, setEdu] = useState([]);
+    const loadEdu = async () => {
+        let res = await Apis.get(endpoints['education'])
+        setEdu(res.data);
+    }
+    const [major, setMajor] = useState([]);
+    const loadMajor = async () => {
+        let res = await Apis.get(endpoints['major'])
+        setMajor(res.data);
+    }
+    const avatar = useRef();
     const [application, SetApplication] = useState({
         "ho": "",
         "ten": "",
@@ -28,18 +38,13 @@ const Application = () => {
         "namKinhNghiem": "",
         "tuoi": ""
     });
-
     const applications = (evt) => {
         evt.preventDefault();
-
         const process = async () => {
             let form = new FormData();
-
             for (let field in application)
             form.append(field, application[field]);
-
             form.append("avatarapp", avatar.current.files[0]);
-
             setLoading(true)
             let res = await Apis.post(endpoints['application'], form);
             if (res.status === 201) {
@@ -49,17 +54,23 @@ const Application = () => {
         }
             process();
     }
-    
-
     const change = (evt, field) => {
-        // setUser({...user, [field]: evt.target.value})
         SetApplication(current => {
             return {...current, [field]: evt.target.value}
         })
     }
+    useEffect(() => {
 
+
+      
+        loadMajor();
+      
+        loadEdu();
+
+
+    }, [])
     return <>
-        <h1 className="text-center text-info mt-2"> THÔNG TIN HỒ SƠ ỨNG VIÊN</h1>
+        <h1 className="text-center text-info mt-2"> NỘP ĐƠN ỨNG TUYỂN</h1>
         {err === null?"":<Alert variant="danger">{err}</Alert>}
         <Form onSubmit={applications}>
         <Form.Group className="mb-3">
@@ -76,7 +87,12 @@ const Application = () => {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Nghề nghiệp</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "ngheNghiep")} placeholder="NgheNghiep" />
+                <Form.Select onChange={(e) => change(e, "ngheNghiep")}>
+                    {major.map(m => {
+                        return <option key={m.nameMajor} >{m.nameMajor}</option>
+                    })}
+                </Form.Select>
+                {/* <Form.Control type="text" onChange={(e) => change(e, "ngheNghiep")} placeholder="NgheNghiep" /> */}
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -85,7 +101,12 @@ const Application = () => {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Trình độ học vấn </Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "trinhDoHocVan")} placeholder="Trình độ học vấn" />
+                <Form.Select onChange={(e) => change(e, "trinhDoHocVan")}>
+                    {edu.map(m => {
+                        return <option key={m.typeEducation} >{m.typeEducation}</option>
+                    })}
+                </Form.Select>
+                {/* <Form.Control type="text" onChange={(e) => change(e, "trinhDoHocVan")} placeholder="Trình độ học vấn" /> */}
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Địa chỉ nhà </Form.Label>

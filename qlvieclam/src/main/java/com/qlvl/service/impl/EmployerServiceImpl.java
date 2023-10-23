@@ -31,14 +31,13 @@ public class EmployerServiceImpl implements EmployerService {
     private Cloudinary cloudinary;
     @Autowired
     private EmployerRepository EmployRepo;
+    @Autowired
+    private UserRepository userRepo;
 
     @Override
     public List<Employer> getEmp(Map<String, String> params) {
         return this.EmployRepo.getEmp(params);
     }
-    
-            @Autowired
-    private UserRepository userRepo;
 
     @Override
     public boolean checkEmployer(Employer e) {
@@ -86,7 +85,7 @@ public class EmployerServiceImpl implements EmployerService {
      return this.EmployRepo.getAllEmpl(params);
     }
 
-    @Override
+     @Override
     public Employer addEmpJwt(Map<String, String> params, MultipartFile avatar) {
         Employer e = new Employer();
         User u = this.userRepo.getUserById(Integer.parseInt(params.get("userID")));

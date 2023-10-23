@@ -28,8 +28,7 @@ public class DistrictServiceImpl implements DistrictService{
 
     @Override
     public District getDistrictById(int id) {
-        return this.DistrictRepo.getDistrictById(id);
+return this.DistrictRepo.getDistrictById(id);
     }
-    
     
 }

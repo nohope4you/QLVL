@@ -7,9 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <c:url value="/ReviewDetail" var="action" />
 <form:form action="${action}"  modelAttribute="REVIEW" method="post">  
-    ${EMPLOYER.id}
+     <h2 style="margin-left: 400px;">Nhà tuyển dụng: ${EMPLOYER.id}</h2>
+    
     <form:hidden path="employerID.id" value=" ${EMPLOYER.id}"/>
     <div class="mb-3">
         <label for="cmt" class="form-label">Bình luận</label>
@@ -26,19 +28,21 @@
             <a href="<c:url value="/login"/>" style="margin-left:300px;" class="btn btn-primary">Đăng nhập</a>
         </c:when>
         <c:otherwise>
-             <button type="submit" class="btn btn-primary">Đánh giá</button>
+            <se:authorize access="hasRole('ROLE_USER')">
+                <button type="submit" class="btn btn-primary">Đánh giá</button>
+            </se:authorize>
         </c:otherwise>
     </c:choose>
-   
+
 </form:form>
 <form:form action="${action}"  modelAttribute="ALLREVIEW" method="post"> 
-     <table class="table table-hover">
+    <table class="table table-hover">
         <thead>
             <tr>
-                
+
                 <th>Bình luận</th>
-                  <th>Đánh giá</th>
-               
+                <th>Đánh giá</th>
+
             </tr>
         </thead>
         <tbody>
@@ -46,8 +50,8 @@
                 <tr>
                     <td>${e.cmt}</td>
                     <td>${e.rating}</td>
-                   
-                  
+
+
                 </tr>
             </c:forEach>
         </tbody>

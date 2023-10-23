@@ -14,14 +14,13 @@ import com.qlvl.repository.JobRepository;
 import com.qlvl.repository.UserRepository;
 import com.qlvl.service.ApplicationService;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,15 +33,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private Cloudinary cloudinary;
-        @Autowired
-    private UserRepository userRepo;
-    @Autowired
-    private JobRepository jobrepo;
-    @Autowired
-    private LocalSessionFactoryBean factory;
     @Autowired
     private ApplicationRepository AppRepo;
-
+    @Autowired
+    private LocalSessionFactoryBean factory;
+   @Autowired
+    private JobRepository jobrepo;
+    @Autowired
+    private UserRepository userRepo;
     @Override
     public boolean addApp(Application app) {
         if (!app.getFile().isEmpty()) {
@@ -62,14 +60,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Application getAppById(int id) {
      return this.AppRepo.getAppById(id);
     }
-    
-    @Override
+
+        @Override
     public Application addAppJwt(Map<String, String> params, MultipartFile avatar) {
 
         Application app = new Application();
         Job id = this.jobrepo.getJobById(Integer.parseInt(params.get("jobID")));
         User u = this.userRepo.getUserById(Integer.parseInt(params.get("userID")));
-        
         app.setHo(params.get("ho"));
         app.setTen(params.get("ten"));
         app.setEmail(params.get("email"));
@@ -93,7 +90,27 @@ public class ApplicationServiceImpl implements ApplicationService {
         this.AppRepo.addAppJwt(app);
         return app;
     }
-    
+
+    @Override
+    public boolean CheckUserAndJobApplication(Application app) {
+    return this.AppRepo.CheckUserAndJobApplication(app);
+    }
+
+    @Override
+    public List<Application> getApplicationByJobId(int id) {
+     return this.AppRepo.getApplicationByJobId(id);
+    }
+
+    @Override
+    public List<Application> getApplicationByUserId(int userid) {
+      return this.AppRepo.getApplicationByUserId(userid);
+    }
+
+    @Override
+    public boolean deleteApp(int id) {
+     return this.AppRepo.deleteApp(id);
+    }
+
     @Override
     public boolean deleteAppByJobID(int id) {
      return this.AppRepo.deleteAppByJobID(id);

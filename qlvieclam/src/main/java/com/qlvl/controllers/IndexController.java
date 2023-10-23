@@ -4,18 +4,22 @@
  */
 package com.qlvl.controllers;
 
+import com.qlvl.pojo.User;
 import com.qlvl.service.CityService;
 import com.qlvl.service.DistrictService;
 import com.qlvl.service.EducationService;
 import com.qlvl.service.JobService;
 import com.qlvl.service.MajorService;
 import com.qlvl.service.TypeJobService;
+import com.qlvl.service.UserService;
 import java.util.Map;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -41,6 +45,8 @@ public class IndexController {
     @Autowired
     private DistrictService DistrictService;
 
+    @Autowired
+    private UserService userSer;
     @Autowired
     private MajorService MajorService;
     @Autowired
@@ -69,6 +75,7 @@ public class IndexController {
 
         model.addAttribute("TYPEJOB", this.TypeService.getTypeJob());
         model.addAttribute("JOB", this.jobService.getJob(params));
+
         
         int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
         long count = this.jobService.countJob();

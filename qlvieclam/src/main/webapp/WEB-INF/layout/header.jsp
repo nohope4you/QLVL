@@ -75,7 +75,15 @@
 
                     </c:otherwise>
                 </c:choose>
+                <li style=" width: 300px">
+                 
+                    <c:url value="/" var="action" />
+                    <form class="d-flex" action="${action}">
+                        <input class="form-control me-auto" type="text" name="kw" placeholder="Nhập tên công việc cần tìm .....">
+                        <button class="btn btn-primary" type="submit">Tìm</button>
+                    </form>
 
+                </li>
             </ul>
         </div>
     </div>

@@ -5,6 +5,7 @@
 package com.qlvl.service;
 
 import com.qlvl.pojo.Application;
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,5 +17,9 @@ public interface ApplicationService {
     Application getAppById(int id);
     boolean addApp(Application app);
      Application addAppJwt(Map<String, String> params, MultipartFile avatar);
-     boolean deleteAppByJobID(int id);
+      boolean CheckUserAndJobApplication(Application app);
+      List<Application> getApplicationByJobId(int id);
+      List<Application> getApplicationByUserId(int userid);
+      boolean deleteApp(int id);
+      boolean deleteAppByJobID(int id);
 }

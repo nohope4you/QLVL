@@ -8,9 +8,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
-
-<div class="container">
-    <h2>ADMIN</h2>
+<se:authorize access="hasRole('ROLE_ADMIN')">
+    <div class="container">
+    <h2>Quản trị</h2>
 
     <table class="table table-hover">
         <thead>
@@ -45,3 +45,4 @@
 <script src="<c:url value="/js/main.js"/>">
 
 </script>
+</se:authorize>

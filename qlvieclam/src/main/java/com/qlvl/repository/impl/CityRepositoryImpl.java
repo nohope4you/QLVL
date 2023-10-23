@@ -38,7 +38,7 @@ public class CityRepositoryImpl implements CityRepository{
 
     @Override
     public City getCityById(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
+         Session s = this.factory.getObject().getCurrentSession();
         return s.get(City.class, id);
     }
 }

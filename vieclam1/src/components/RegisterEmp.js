@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
@@ -17,10 +17,17 @@ const RegisterEmp = () => {
         "nameEmployer": "",
         "soDienThoai": "",
         "addressComapny": "",
-        "nganhNghe": "",
+        "nganhNghe": "IT",
         "userID": user.id,
     });
-
+    const [major, setMajor] = useState([]);
+    const loadMajor = async () => {
+        let res = await Apis.get(endpoints['major'])
+        setMajor(res.data);
+    }
+    useEffect(() => {   
+        loadMajor();
+    }, [])
     const registeremp = (evt) => {
         evt.preventDefault();
 
@@ -71,7 +78,11 @@ const RegisterEmp = () => {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Nghề nghiệp</Form.Label>
-                <Form.Control type="text" onChange={(e) => change(e, "nganhNghe")} placeholder="Nghề nghiệp" required />
+                <Form.Select onChange={(e) => change(e, "ngheNghiep")}>
+                    {major.map(m => {
+                        return <option key={m.nameMajor} >{m.nameMajor}</option>
+                    })}
+                </Form.Select>
             </Form.Group>
 
             <Form.Group className="mb-3">

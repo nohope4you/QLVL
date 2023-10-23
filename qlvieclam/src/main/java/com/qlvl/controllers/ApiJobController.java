@@ -8,13 +8,8 @@ import com.qlvl.pojo.Application;
 import com.qlvl.pojo.Employer;
 import com.qlvl.pojo.Job;
 import com.qlvl.service.ApplicationService;
-import com.qlvl.service.CityService;
-import com.qlvl.service.DistrictService;
-import com.qlvl.service.EducationService;
 import com.qlvl.service.EmployerService;
 import com.qlvl.service.JobService;
-import com.qlvl.service.MajorService;
-import com.qlvl.service.TypeJobService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +21,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -41,29 +35,26 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiJobController {
-    @Autowired
-    private ApplicationService Appser;
+
     @Autowired
     private JobService JobSer;
-//        @Autowired
-//    private DistrictService DistrictService;
-        @Autowired
+    @Autowired
+    private ApplicationService AppRepo;
+
+    @Autowired
     private EmployerService emps;
-//    @Autowired
-//    private MajorService MajorService;
-//    @Autowired
-//    private CityService CityService;
-//    @Autowired
-//    private TypeJobService TypeService;
-//
-//    @Autowired
-//    private EducationService EduService;
+
+    @DeleteMapping("/createJob/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void DeleteJob(@PathVariable(value = "id") int id) {
+        this.JobSer.deleteJob(id);
+    }
 
     @DeleteMapping("/deleteJob/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CrossOrigin
-    public void DeleteJob(@PathVariable(value = "id") int id) {
-        this.Appser.deleteAppByJobID(id);
+    public void DeleteJobs(@PathVariable(value = "id") int id) {
+        this.AppRepo.deleteAppByJobID(id);
         this.JobSer.deleteJob(id);
     }
 
@@ -72,49 +63,54 @@ public class ApiJobController {
     public ResponseEntity<List<Job>> list(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.JobSer.getJob(params), HttpStatus.OK);
     }
-    
-    @RequestMapping("/GetJob/{id}")
+
+//    @GetMapping("/Emp/{id}")
+//    @CrossOrigin
+//    public ResponseEntity<Employer> emp(@PathVariable(value = "id") int id) {
+//        return new ResponseEntity<>(this.emSer.FindEmployerByUserID(id), HttpStatus.OK);
+//    }
+    @GetMapping("/GetJob/{id}")
     @CrossOrigin
     public ResponseEntity<Job> details(@PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.JobSer.getJobById(id), HttpStatus.OK);
     }
-    
-    @PostMapping(path = "/NewJob/", 
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+
+//    @RequestMapping("/GetJobEmployer/{id}")
+//    @CrossOrigin
+//    public ResponseEntity<List<Job>> detailJobs(@PathVariable(value = "id") int id) {
+//        return new ResponseEntity<>(this.JobSer.getJobByEmpl(null), HttpStatus.OK);
+//    }
+    @PostMapping(path = "/getApplication/")
+    @CrossOrigin
+    public ResponseEntity<Application> addAppJwt(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarapp) {
+        Application app = this.AppRepo.addAppJwt(params, avatarapp);
+        return new ResponseEntity<>(app, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/NewJob/",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
     @ResponseStatus
-public ResponseEntity<Job> addJob(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarJob) {
-    
+    public ResponseEntity<Job> addJob(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarJob) {
+
         Job jb = this.JobSer.addJobJwt(params, avatarJob);
         return new ResponseEntity<>(jb, HttpStatus.CREATED);
     }
-
-    
-    @PostMapping(path = "/getApplication/", 
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    @CrossOrigin
-    @ResponseStatus
-    public ResponseEntity<Application> addAppJwt (@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarapp) {
-        Application app = this.Appser.addAppJwt(params, avatarapp);
-        return new ResponseEntity<>(app, HttpStatus.CREATED);
-    }
-    
 
     @RequestMapping("/GetJobByEmp/")
     @CrossOrigin
     public ResponseEntity<List<Employer>> lists(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.emps.getEmp(params), HttpStatus.OK);
     }
-    
-    @PostMapping(path = "/UpdateJob/", 
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+
+    @PostMapping(path = "/UpdateJob/",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
-     @ResponseStatus
+    @ResponseStatus
     public ResponseEntity<Job> UpdateJob(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatarJob) {
-            
+
         Job jsb = this.JobSer.updateJobJwt(params, avatarJob);
         return new ResponseEntity<>(jsb, HttpStatus.OK);
     }

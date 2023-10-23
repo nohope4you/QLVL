@@ -87,4 +87,35 @@
         <put-attribute name="content"
                        value="/WEB-INF/pages/SearchUser.jsp" />
     </definition>
+      <definition name="ListApplication" extends="baseLayout">
+        <put-attribute name="title" value="Danh sách đơn ứng tuyển" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/ListApplication.jsp" />
+    </definition>
+       <definition name="ListApplication" extends="baseLayout">
+        <put-attribute name="title" value="Danh sách đơn ứng tuyển" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/ListApplication.jsp" />
+    </definition>
+  
+     <definition name="pdfGenerated" extends="baseLayout">
+        <put-attribute name="title" value="Danh sách đơn ứng tuyển" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/pdfGenerated.jsp" />
+    </definition>
+    
+    <definition name="pdfGenerationError" extends="baseLayout">
+        <put-attribute name="title" value="Danh sách đơn ứng tuyển" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/pdfGenerationError.jsp" />
+    </definition>
+    
+     <definition name="TaoCV" extends="baseLayout">
+        <put-attribute name="title" value="Tạo CV" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/TaoCV.jsp" />
+    </definition>
+
+    
+
 </tiles-definitions>

@@ -5,6 +5,9 @@
 package com.qlvl.repository;
 
 import com.qlvl.pojo.Application;
+import com.qlvl.pojo.Job;
+import com.qlvl.pojo.User;
+import java.util.List;
 
 
 
@@ -15,6 +18,10 @@ import com.qlvl.pojo.Application;
 public interface ApplicationRepository {
     Application getAppById(int id);
      boolean addApp(Application app);
-     boolean addAppJwt (Application A);
-     boolean deleteAppByJobID(int id);
+     boolean CheckUserAndJobApplication (Application app);
+      List<Application> getApplicationByJobId(int id);
+      List<Application> getApplicationByUserId(int userid);
+      boolean deleteApp(int id);
+      boolean deleteAppByJobID(int id);
+      boolean addAppJwt (Application A);
 }

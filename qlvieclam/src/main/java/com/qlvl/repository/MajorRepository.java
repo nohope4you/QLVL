@@ -14,5 +14,5 @@ import java.util.Map;
  */
 public interface MajorRepository {
     List<Major> getMajor();
-    Major getMajorById (int id);
+      Major getMajorById (int id);
 }

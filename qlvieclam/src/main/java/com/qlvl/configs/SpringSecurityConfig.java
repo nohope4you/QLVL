@@ -42,18 +42,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     @Autowired
     private Environment env;
-    
+
     @Bean
     public Cloudinary cloudinary() {
         Cloudinary cloudinary
                 = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name","dajbt7dew",
+                        "cloud_name", "dajbt7dew",
                         "api_key", "994941553523981",
                         "api_secret", "tupyLCTsEYrDeDmpXp0WFP8ST34",
                         "secure", true));
         return cloudinary;
     }
-        @Bean
+
+    @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver
                 = new CommonsMultipartResolver();
@@ -86,17 +87,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin().defaultSuccessUrl("/")
                 .failureUrl("/login?error");
-
-        http.logout().logoutSuccessUrl("/login");
-
+        http.logout().logoutSuccessUrl("/login");   
         http.exceptionHandling()
-                .accessDeniedPage("/login?accessDenied");
+                .accessDeniedPage("/?accessDenied");
+        http.authorizeRequests().antMatchers("/**/Admin")
+                .access("hasAnyRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/**/ThongKe")
+                .access("hasAnyRole('ROLE_ADMIN')");
 
-//        http.authorizeRequests().antMatchers("/").permitAll()
-//                .antMatchers("/**/add")
-//                .access("hasRole('ROLE_ADMIN')");
-//        .antMatchers("/**/pay")
-//                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+        http.authorizeRequests().antMatchers("/**/createJob")
+                .access("hasAnyRole('ROLE_EMP','ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/**/Employer")
+                .access("hasAnyRole('ROLE_EMP','ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/**/SearchUser")
+               .access("hasAnyRole('ROLE_EMP','ROLE_ADMIN')");
         http.csrf().disable();
     }
 

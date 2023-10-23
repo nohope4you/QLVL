@@ -26,7 +26,6 @@ public class JwtService {
         public static final String SECRET_KEY = "11111111111111111111111111111111";
     public static final byte[] SHARED_SECRET_KEY = SECRET_KEY.getBytes();
     public static final int EXPIRE_TIME = 86400000;
-
     public String generateTokenLogin(String username) {
         String token = null;
         try {

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Alert, Spinner } from "react-bootstrap";
 import { Badge, Button, Col, Container, Form, Nav, Card, Navbar, NavDropdown, Row } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import MySpinner from "../layout/MySpinner";
 import format from "date-fns/format";
 import Apis, { endpoints } from "../configs/Apis";
@@ -15,9 +15,7 @@ const EmpJob = () => {
     const [user,] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
     const [q] = useSearchParams();
-    const { id } = useParams();
     const [, setSave] = useContext(MyCookieContext);
-    const [deleteJob, setdeletejob] = useState(null);
     const [city, setCity] = useState(null);
     const loadCity = async () => {
         let res = await Apis.get(endpoints['city'])
@@ -47,7 +45,7 @@ const EmpJob = () => {
     const nav = useNavigate();
     const search = (evt) => {
         evt.preventDefault();
-        nav(`/?kw=${kw}`)
+        nav(`/EmpJob/?kw=${kw}`)
     }
 
     setSave({
@@ -79,6 +77,9 @@ const EmpJob = () => {
     }, [q]);
 
     useEffect(() => {
+        if (user === null || user === undefined) {
+            nav("/Login");
+        }
         loadCity();
         loadMajor();
         loadTypeJob();
@@ -93,17 +94,11 @@ const EmpJob = () => {
         }
         loadJob();
     }
-
-
     if (city === null || major === null || edu === null || typeJob === null || job === null)
         return <MySpinner />
 
-
-
     return (
         <>
-
-            <Button href="/newjob" > thêm job </Button>
             <Container className="mt-5">
                 <Form onSubmit={search} inline>
                     <Row>
@@ -148,6 +143,7 @@ const EmpJob = () => {
                                         <Card.Img variant="top" src={c.avatarJob} fluid rounded />
                                     </Card>
                                 </td>
+
                                 <td>{c.nameJob}</td>
                                 <td>{c.salary} VNĐ</td>
                                 <td>{c.soLuongTuyenDung}</td>
@@ -160,16 +156,13 @@ const EmpJob = () => {
                                     {user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được sửa</p> : <>
 
                                         <Button variant="danger" href={url}>Sửa tin</Button>
-
-
                                     </>}
 
-                                </td>{user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được xóa</p> : <>
-
+                                </td>
+                                {user.id !== c.employerID.userID.id ? <p>Đây không phải tin của bạn nên không được xoá</p> : <>
                                     <td><Button variant="danger" onClick={() => deletes(c.id)} >Xóa tin</Button></td>
-
-
                                 </>}
+
 
                             </tr>
 

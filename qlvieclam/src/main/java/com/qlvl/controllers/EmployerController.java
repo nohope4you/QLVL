@@ -8,6 +8,7 @@ import com.qlvl.pojo.Employer;
 import com.qlvl.pojo.User;
 import com.qlvl.repository.UserRepository;
 import com.qlvl.service.EmployerService;
+import com.qlvl.service.JobService;
 import com.qlvl.service.MajorService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +36,35 @@ public class EmployerController {
     private UserRepository UserRepo;
     @Autowired
     private MajorService MajorService;
+    @Autowired
+    private JobService jobService;
 
     @GetMapping("/Employer")
     @Transactional
     public String Employer(Model model) {
-        model.addAttribute("MAJOR", this.MajorService.getMajor());
-        model.addAttribute("emp", new Employer());
-        return "Employer";
+
+        if (this.jobService.getJobByEmpl(0) != null) {
+            model.addAttribute("MAJOR", this.MajorService.getMajor());
+            model.addAttribute("emp", new Employer());
+            model.addAttribute("jobEmploy", this.jobService.getJobByEmpl(0));
+            return "Employer";
+        } else {
+            model.addAttribute("MAJOR", this.MajorService.getMajor());
+            model.addAttribute("emp", new Employer());
+
+            return "Employer";
+        }
+
     }
 
     @PostMapping("/Employer")
-    public String addEmployer(@ModelAttribute(value = "emp") @Valid Employer e, RedirectAttributes redirect, BindingResult rs) {
+    public String addEmployer(@ModelAttribute(value = "emp") @Valid Employer e, RedirectAttributes redirect, Model model, BindingResult rs) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User u = this.UserRepo.findUserByUserName(authentication.getName());
         if (EmplSer.FindEmployerByUserID(u.getId()) != null) {
             redirect.addFlashAttribute("message", "Tài khoản đã đăng ký nhà tuyển dụng rồi");
+
             return "redirect:/Employer";
         }
         if (!rs.hasErrors()) {

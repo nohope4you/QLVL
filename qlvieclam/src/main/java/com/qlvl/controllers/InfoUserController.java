@@ -4,7 +4,9 @@
  */
 package com.qlvl.controllers;
 
+import com.qlvl.pojo.Application;
 import com.qlvl.pojo.User;
+import com.qlvl.service.ApplicationService;
 import com.qlvl.service.MajorService;
 import com.qlvl.service.RoleService;
 import com.qlvl.service.SignUpService;
@@ -37,12 +39,16 @@ public class InfoUserController {
     @Autowired
     private SignUpService SignUp;
 
+    @Autowired
+    private ApplicationService AppSer;
+
     @GetMapping("/InfoUser")
     public String InfoUser(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("MAJOR", this.MajorSer.getMajor());
         model.addAttribute("roless", this.RoleService.getRole(null));
         model.addAttribute("USER", this.userService.getUsername(params));
         model.addAttribute("info", new User());
+//        model.addAttribute("info", new Application());
 
         return "InfoUser";
     }
@@ -52,11 +58,13 @@ public class InfoUserController {
         model.addAttribute("MAJOR", this.MajorSer.getMajor());
         model.addAttribute("roless", this.RoleService.getRole(null));
         model.addAttribute("info", this.userService.getUserById(id));
+        model.addAttribute("app", this.AppSer.getApplicationByUserId(id));
+        model.addAttribute(userService);
         return "InfoUser";
     }
 
     @PostMapping("/InfoUser")
-    public String add(@ModelAttribute(value = "info") @Valid User u, BindingResult rs,Model model) {
+    public String add(@ModelAttribute(value = "info") @Valid User u, BindingResult rs, Model model) {
         model.addAttribute("MAJOR", this.MajorSer.getMajor());
         model.addAttribute("roless", this.RoleService.getRole(null));
         if (SignUp.addUser(u) == true) {

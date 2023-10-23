@@ -33,7 +33,7 @@ public class DistrictRepositoryImpl implements DistrictRepository{
 
     @Override
     public District getDistrictById(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
+         Session s = this.factory.getObject().getCurrentSession();
         return s.get(District.class, id);
     }
 }

@@ -6,22 +6,22 @@ package com.qlvl.controllers;
 
 import com.cloudinary.http44.api.Response;
 import com.qlvl.pojo.Application;
+import com.qlvl.pojo.User;
 import com.qlvl.service.ApplicationService;
 import com.qlvl.service.ThongKeService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -30,11 +30,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiApplicationController {
-        @Autowired
-    private ApplicationService AppRepo;
 
     @Autowired
     private ThongKeService ThongKeSer;
+    
+    @Autowired
+    private ApplicationService AppSer;
+    
+     @DeleteMapping("/DeleteApp/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void DeleteApp(@PathVariable(value = "id") int id) {
+        this.AppSer.deleteApp(id);
+    }
+    
+     @DeleteMapping("/x/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void DeleteAppbyJobID(@PathVariable(value = "id") int id) {
+        this.AppSer.deleteAppByJobID(id);
+    }
+
 
     @RequestMapping("/GetThongKeByNumberMajor/")
     @CrossOrigin
@@ -129,5 +143,10 @@ public class ApiApplicationController {
         List applyJob = this.ThongKeSer.GetNumberQuy4(year);
         return ResponseEntity.ok(applyJob);
     }
-    
+     @RequestMapping("/GetApplication/{id}")
+    @CrossOrigin
+    public ResponseEntity<List<Application>> GetApplication(@RequestParam Map<String, String> params,@PathVariable(value = "id") int id) {
+        List applyJob = this.AppSer.getApplicationByJobId(id);
+        return ResponseEntity.ok(applyJob);
+    }
 }

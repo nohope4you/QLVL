@@ -36,8 +36,6 @@ public class SigUpRepositoryImpl implements SignUpRepository {
     @Override
     public boolean addUser(User u) {
         Session s = this.factory.getObject().getCurrentSession();
-//       if(u.getPassword()!= u.getConfirmPwd())
-//           return false;
         if (u.getId() == null) {
              u.setPassword(this.passEncoder.encode(u.getPassword()));
             if (u.getRoleID().getId() == 1) {

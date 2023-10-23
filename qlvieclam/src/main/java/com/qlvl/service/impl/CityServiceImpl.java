@@ -28,7 +28,7 @@ public class CityServiceImpl implements CityService{
 
     @Override
     public City getCityById(int id) {
-        return this.CityRepo.getCityById(id);
+       return this.CityRepo.getCityById(id);  
     }
     
 }

@@ -30,7 +30,6 @@ const JobDetail = () => {
     let savecookie=cookie.load("savecookie")|| null;
     if(savecookie == null)
         savecookie = {};
-
         savecookie = {
             "id": id,
             "avatarJob": Job.avatarJob,
@@ -46,10 +45,7 @@ const JobDetail = () => {
             "educationID": Job.educationID.id,
             "districID": Job.districID.id
         }
-
-        
     cookie.save("savecookie",savecookie);
-    console.info(savecookie);
     }
     
 

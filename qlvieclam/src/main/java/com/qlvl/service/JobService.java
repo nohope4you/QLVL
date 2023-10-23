@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
-
 /**
  *
  * @author ACER
@@ -20,7 +19,7 @@ public interface JobService {
     boolean addJob(Job j);
     Job getJobById(int id);
     boolean deleteJob(int id);
-    Job addJobJwt(Map<String, String> params, MultipartFile avatar);
     List<Job> getJobByEmpl(int id);
-    Job updateJobJwt(Map<String, String> params, MultipartFile avatar);
+    Job addJobJwt(Map<String, String> params, MultipartFile avatar);
+     Job updateJobJwt(Map<String, String> params, MultipartFile avatar);
 }

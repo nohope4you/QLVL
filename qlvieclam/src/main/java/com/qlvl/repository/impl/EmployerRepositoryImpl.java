@@ -71,14 +71,13 @@ public class EmployerRepositoryImpl implements EmployerRepository {
         return false;
     }
 
-@Override
+    @Override
     public Employer getEmployerByUserId(int userId) {
         Session s = this.factory.getObject().getCurrentSession();
         Employer e = s.createQuery("FROM Employer WHERE userID.id=:userId", Employer.class)
                 .setParameter("userId", userId)
                 .uniqueResult();
         return e;
-
     }
 
     @Override
@@ -90,7 +89,6 @@ public class EmployerRepositoryImpl implements EmployerRepository {
     @Override
     public boolean addOrUpdateEmployer(Employer e) {
         Session s = this.factory.getObject().getCurrentSession();
-
         try {
             if (e.getId() == null) {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -143,7 +141,7 @@ public class EmployerRepositoryImpl implements EmployerRepository {
         return query.getResultList();
     }
 
-    @Override
+     @Override
     public boolean addEmpJwt(Employer e) {
               Session s = this.factory.getObject().getCurrentSession();
 

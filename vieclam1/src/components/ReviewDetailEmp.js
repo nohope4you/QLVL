@@ -15,11 +15,12 @@ const ReviewDetailEmp = () => {
     const [user,] = useContext(MyUserContext);
     const [,setSave] = useContext(MyCookieContext);
     const { id } = useParams();
-    const [Emp, setEmp] = useState(null);
-    const [comments, setComments] = useState(null);
+  
+    const [comments, setComments] = useState([]);
     const [content, setContent] = useState();
     const [rate, setRate] = useState();
-
+    
+    const [Emp, setEmp] = useState(null);
     useEffect(() => {
         const loademp = async () => {
             let { data } = await Apis.get(endpoints['empdetail'](id));

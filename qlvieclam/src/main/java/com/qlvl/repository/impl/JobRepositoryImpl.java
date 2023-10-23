@@ -66,7 +66,7 @@ public class JobRepositoryImpl implements JobRepository {
             String kw = params.get("kw");
             if (kw != null && !kw.isEmpty()) {
                 predicates.add(b.like(root.get("nameJob"), String.format("%%%s%%", kw)));
-               
+
             }
 
             String cityId = params.get("cityId");
@@ -120,11 +120,11 @@ public class JobRepositoryImpl implements JobRepository {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User u = this.UserRepo.getUserByUserName(authentication.getName());
         Employer e = this.EmplRepo.getEmployerByUserId(u.getId());
-        
+
         j.setEmployerID(e);
         Date date = new Date();
         j.setCreatedDate(date);
-        
+
         try {
 
             if (j.getId() == null && e.getIsApproved()) {
@@ -161,6 +161,25 @@ public class JobRepositoryImpl implements JobRepository {
     }
 
     @Override
+    public List<Job> getJobByEmpl(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User u = this.UserRepo.getUserByUserName(authentication.getName());
+        Employer e = this.EmplRepo.getEmployerByUserId(u.getId());
+        if (e != null) {
+            id = e.getId();
+
+            Query q = s.createQuery("FROM Job WHERE employerID.id=:eid");
+            q.setParameter("eid", id);
+            return q.getResultList();
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
     public boolean addJobJwt(Job j) {
         Session s = this.factory.getObject().getCurrentSession();
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -170,18 +189,13 @@ public class JobRepositoryImpl implements JobRepository {
 //        j.setEmployerID(e);
         Date date = new Date();
         j.setCreatedDate(date);
-        
+
         try {
 
             if (j.getId() == null && j.getEmployerID().getIsApproved()) {
                 s.save(j);
             } else {
-                if (j.getEmployerID().getIsApproved()){
-                    s.update(j);
-                }
-                else{
-                    return false;
-                }
+                s.update(j);
             }
 
             return true;
@@ -190,13 +204,4 @@ public class JobRepositoryImpl implements JobRepository {
             return false;
         }
     }
-
-@Override
-    public List<Job> getJobByEmpl(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
-            Query q = s.createQuery("FROM Job WHERE employerID.id=:idEmp");
-            q.setParameter("idEmp", id);
-            return q.getResultList();
-    }
-
 }

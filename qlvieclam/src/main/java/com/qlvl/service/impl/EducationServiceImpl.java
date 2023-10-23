@@ -24,13 +24,12 @@ public class EducationServiceImpl implements EducationService {
     @Override
     public List<Education> getEdu() {
         return this.EduRepo.getEdu();
+        
     }
 
-    @Override
+      @Override
     public Education getEducationById(int id) {
         return this.EduRepo.getEducationById(id);
     }
     
-    
-
 }

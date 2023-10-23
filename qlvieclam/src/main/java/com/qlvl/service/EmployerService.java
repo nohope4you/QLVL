@@ -27,6 +27,5 @@ public interface EmployerService {
 
     Employer FindEmployerByUserID(int id);
     List<Employer> getAllEmpl(Map<String, String> params);
-    
-        Employer addEmpJwt(Map<String, String> params, MultipartFile avatar);
+    Employer addEmpJwt(Map<String, String> params, MultipartFile avatar);
 }

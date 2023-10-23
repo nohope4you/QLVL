@@ -30,7 +30,7 @@ public class MajorRepositoryImpl implements MajorRepository{
         return query.getResultList();
     }
 
-    @Override
+     @Override
     public Major getMajorById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Major.class, id);    

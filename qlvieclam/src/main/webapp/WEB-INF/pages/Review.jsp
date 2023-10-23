@@ -14,7 +14,7 @@
  <li style="margin:auto ; width: 500px;list-style-type: none" >
         <c:url value="/Review" var="action" />
         <form class="d-flex" action="${action}">
-            <input class="form-control me-auto" type="text" name="kw" placeholder="Nhập tên công việc cần tìm .....">
+            <input class="form-control me-auto" type="text" name="kw" placeholder="Nhập tên nhà tuyển dụng cần tìm .....">
             <button class="btn btn-primary" type="submit">Tìm</button>
         </form>
 
